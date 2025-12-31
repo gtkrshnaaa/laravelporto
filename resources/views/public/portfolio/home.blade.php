@@ -40,7 +40,7 @@
                 }, 30);
             });
         }
-    }">\n    
+    }">    
     <!-- Hero Section Enhanced -->
     <section class="relative pt-24 pb-16 md:pt-32 md:pb-24 overflow-hidden">
         <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-zinc-800/20 via-background to-background opacity-40"></div>
@@ -472,23 +472,21 @@
                         
                         <!-- Contact Form -->
                         <form @submit.prevent="submitForm" class="space-y-6 text-left">
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                <div>
-                                    <label for="name" class="block text-sm font-medium text-background mb-2">Name *</label>
-                                    <input type="text" id="name" x-model="formData.name" @blur="validateField('name')" 
-                                           class="w-full px-4 py-3 rounded-lg bg-background/10 border text-background placeholder-background/50 focus:outline-none focus:ring-2 focus:ring-background/30 backdrop-blur-sm transition-all"
-                                           :class="errors.name ? 'border-red-400' : 'border-background/20'"
-                                           placeholder="John Doe">
-                                    <p x-show="errors.name" x-text="errors.name" class="text-xs text-red-300 mt-1"></p>
-                                </div>
-                                <div>
-                                    <label for="email" class="block text-sm font-medium text-background mb-2">Email *</label>
-                                    <input type="email" id="email" x-model="formData.email" @blur="validateField('email')"
-                                           class="w-full px-4 py-3 rounded-lg bg-background/10 border text-background placeholder-background/50 focus:outline-none focus:ring-2 focus:ring-background/30 backdrop-blur-sm transition-all"
-                                           :class="errors.email ? 'border-red-400' : 'border-background/20'"
-                                           placeholder="john@example.com">
-                                    <p x-show="errors.email" x-text="errors.email" class="text-xs text-red-300 mt-1"></p>
-                                </div>
+                            <div>
+                                <label for="name" class="block text-sm font-medium text-background mb-2">Name *</label>
+                                <input type="text" id="name" x-model="formData.name" @blur="validateField('name')" 
+                                       class="w-full px-4 py-3 rounded-lg bg-background/10 border text-background placeholder-background/50 focus:outline-none focus:ring-2 focus:ring-background/30 backdrop-blur-sm transition-all"
+                                       :class="errors.name ? 'border-red-400' : 'border-background/20'"
+                                       placeholder="John Doe">
+                                <p x-show="errors.name" x-text="errors.name" class="text-xs text-red-300 mt-1"></p>
+                            </div>
+                            <div>
+                                <label for="email" class="block text-sm font-medium text-background mb-2">Email *</label>
+                                <input type="email" id="email" x-model="formData.email" @blur="validateField('email')"
+                                       class="w-full px-4 py-3 rounded-lg bg-background/10 border text-background placeholder-background/50 focus:outline-none focus:ring-2 focus:ring-background/30 backdrop-blur-sm transition-all"
+                                       :class="errors.email ? 'border-red-400' : 'border-background/20'"
+                                       placeholder="john@example.com">
+                                <p x-show="errors.email" x-text="errors.email" class="text-xs text-red-300 mt-1"></p>
                             </div>
                             <div>
                                 <div class="flex justify-between items-center mb-2">
