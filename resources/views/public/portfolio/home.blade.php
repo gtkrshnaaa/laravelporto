@@ -4,8 +4,6 @@
 
 @section('content')
     <div x-data="{
-        activeTestimonial: 0,
-        testimonials: {{ Js::from($testimonials) }},
         stats: {{ Js::from($statistics) }},
         animatedStats: {},
         init() {
@@ -13,11 +11,6 @@
             this.stats.forEach((stat, index) => {
                 this.animatedStats[index] = 0;
             });
-            
-            // Auto-play testimonials
-            setInterval(() => {
-                this.activeTestimonial = (this.activeTestimonial + 1) % this.testimonials.length;
-            }, 5000);
             
             // Animate stats when visible
             const statsObserver = new IntersectionObserver((entries) => {
@@ -47,8 +40,7 @@
                 }, 30);
             });
         }
-    }">
-    
+    }">\n    
     <!-- Hero Section Enhanced -->
     <section class="relative pt-24 pb-16 md:pt-32 md:pb-24 overflow-hidden">
         <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-zinc-800/20 via-background to-background opacity-40"></div>
@@ -299,7 +291,7 @@
         </div>
     </section>
 
-    <!-- Testimonials Carousel Section -->
+    <!-- Testimonials Bento Grid Section -->
     <section id="testimonials" class="py-20 bg-background">
         <div class="container mx-auto px-4">
             <div class="mb-12 text-center">
@@ -311,82 +303,113 @@
                 </p>
             </div>
 
-            <div class="max-w-4xl mx-auto">
-                <!-- Testimonial Cards -->
-                <div class="relative min-h-[300px]">
-                    <template x-for="(testimonial, index) in testimonials" :key="index">
-                        <div x-show="activeTestimonial === index"
-                             x-transition:enter="transition ease-out duration-300"
-                             x-transition:enter-start="opacity-0 translate-y-4"
-                             x-transition:enter-end="opacity-100 translate-y-0"
-                             x-transition:leave="transition ease-in duration-200"
-                             x-transition:leave-start="opacity-100 translate-y-0"
-                             x-transition:leave-end="opacity-0 -translate-y-4"
-                             class="absolute inset-0">
-                            
-                            <div class="bg-surface border border-border rounded-2xl p-8 md:p-12">
-                                <!-- Quote Icon -->
-                                <div class="text-6xl text-primary/10 mb-4">"</div>
-                                
-                                <!-- Testimonial Content -->
-                                <p class="text-lg md:text-xl text-primary mb-8 leading-relaxed" x-text="testimonial.content"></p>
-                                
-                                <!-- Rating -->
-                                <div class="flex gap-1 mb-6">
-                                    <template x-for="star in 5" :key="star">
-                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" :fill="star <= testimonial.rating ? 'currentColor' : 'none'" stroke="currentColor" class="w-5 h-5 text-yellow-500">
-                                            <path stroke-linecap="round" stroke-linejoin="round" d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.563.563 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z" />
-                                        </svg>
-                                    </template>
-                                </div>
+            <!-- Bento Grid Layout for Testimonials -->
+            <div class="grid grid-cols-12 gap-4 auto-rows-[200px]">
+                @foreach($testimonials as $index => $testimonial)
+                    <div class="
+                        {{ $index == 0 ? 'col-span-12 md:col-span-8 row-span-2' : '' }}
+                        {{ $index == 1 ? 'col-span-12 md:col-span-4 row-span-1' : '' }}
+                        {{ $index == 2 ? 'col-span-12 md:col-span-4 row-span-1' : '' }}
+                        {{ $index == 3 ? 'col-span-12 md:col-span-6 row-span-2' : '' }}
+                        {{ $index == 4 ? 'col-span-12 md:col-span-6 row-span-2' : '' }}
+                        bg-surface border border-border rounded-2xl p-6 md:p-8 hover:shadow-xl hover:shadow-primary/5 hover:border-primary/30 transition-all duration-300 group
+                    ">
+                        <!-- Quote Icon -->
+                        <div class="text-4xl md:text-5xl text-primary/10 mb-3">"</div>
+                        
+                        <!-- Testimonial Content -->
+                        <p class="text-sm md:text-base text-primary mb-4 md:mb-6 leading-relaxed {{ $index == 0 ? 'line-clamp-none' : 'line-clamp-3' }}">
+                            {{ $testimonial['content'] }}
+                        </p>
+                        
+                        <!-- Rating -->
+                        <div class="flex gap-1 mb-4">
+                            @for($i = 1; $i <= 5; $i++)
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="{{ $i <= $testimonial['rating'] ? 'currentColor' : 'none' }}" stroke="currentColor" class="w-4 h-4 text-yellow-500">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.563.563 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z" />
+                                </svg>
+                            @endfor
+                        </div>
 
-                                <!-- Client Info -->
-                                <div class="flex items-center gap-4">
-                                    <div class="w-12 h-12 rounded-full bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center">
-                                        <span class="text-lg font-bold text-primary" x-text="testimonial.client_name.charAt(0)"></span>
-                                    </div>
-                                    <div>
-                                        <div class="font-bold text-primary" x-text="testimonial.client_name"></div>
-                                        <div class="text-sm text-secondary">
-                                            <span x-text="testimonial.client_position"></span> at 
-                                            <span x-text="testimonial.client_company"></span>
-                                        </div>
-                                    </div>
+                        <!-- Client Info -->
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-full bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center flex-shrink-0">
+                                <span class="text-base font-bold text-primary">{{ substr($testimonial['client_name'], 0, 1) }}</span>
+                            </div>
+                            <div class="min-w-0">
+                                <div class="font-bold text-primary text-sm truncate">{{ $testimonial['client_name'] }}</div>
+                                <div class="text-xs text-secondary truncate">
+                                    {{ $testimonial['client_position'] }} at {{ $testimonial['client_company'] }}
                                 </div>
                             </div>
                         </div>
-                    </template>
-                </div>
-
-                <!-- Navigation Dots -->
-                <div class="flex justify-center gap-2 mt-8">
-                    <template x-for="(testimonial, index) in testimonials" :key="index">
-                        <button @click="activeTestimonial = index"
-                                :class="activeTestimonial === index ? 'bg-primary w-8' : 'bg-border w-3'"
-                                class="h-3 rounded-full transition-all duration-300"></button>
-                    </template>
-                </div>
+                    </div>
+                @endforeach
             </div>
         </div>
     </section>
 
-    <!-- About Section -->
+    <!-- About Section with Bento Grid -->
     <section class="py-20 bg-background">
         <div class="container mx-auto px-4">
-            <div class="max-w-4xl mx-auto">
-                <div class="bg-surface border border-border rounded-2xl p-8 md:p-12">
-                    <h2 class="text-3xl md:text-4xl font-bold text-primary mb-6">
-                        About Me
-                    </h2>
-                    <p class="text-secondary text-lg leading-relaxed mb-6">
+            <div class="mb-12 text-center">
+                <h2 class="text-3xl md:text-5xl font-bold text-primary mb-4 tracking-tight">
+                    About <span class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-600">Me</span>
+                </h2>
+                <p class="text-secondary text-lg max-w-xl mx-auto">
+                    Get to know more about who I am and what drives me
+                </p>
+            </div>
+
+            <!-- Bento Grid Layout for About -->
+            <div class="grid grid-cols-12 gap-4 auto-rows-[200px]">
+                <!-- Main About Card (Large) -->
+                <div class="col-span-12 md:col-span-8 row-span-2 bg-gradient-to-br from-blue-500/10 via-purple-500/10 to-pink-500/10 border border-border rounded-2xl p-8 md:p-10">
+                    <h3 class="text-2xl md:text-3xl font-bold text-primary mb-4">Who I Am</h3>
+                    <p class="text-secondary text-base md:text-lg leading-relaxed mb-4">
                         I'm a passionate developer who loves creating beautiful, functional web experiences. 
                         With expertise in modern web technologies, I bring ideas to life through clean code 
                         and thoughtful design.
                     </p>
-                    <p class="text-secondary text-lg leading-relaxed">
+                    <p class="text-secondary text-base md:text-lg leading-relaxed">
                         When I'm not coding, you'll find me exploring new technologies, contributing to 
                         open-source projects, or sharing knowledge with the developer community. Let's build 
                         something amazing together!
+                    </p>
+                </div>
+
+                <!-- Experience Card -->
+                <div class="col-span-12 md:col-span-4 row-span-1 bg-gradient-to-br from-green-500/10 to-teal-500/10 border border-border rounded-2xl p-6 flex flex-col justify-between">
+                    <div>
+                        <div class="text-4xl md:text-5xl font-bold text-primary mb-2">5+</div>
+                        <h3 class="text-lg font-bold text-primary mb-2">Years Experience</h3>
+                        <p class="text-sm text-secondary">Building scalable web applications</p>
+                    </div>
+                </div>
+
+                <!-- Mission Card -->
+                <div class="col-span-12 md:col-span-4 row-span-1 bg-gradient-to-br from-orange-500/10 to-red-500/10 border border-border rounded-2xl p-6">
+                    <h3 class="text-lg font-bold text-primary mb-3">My Mission</h3>
+                    <p class="text-sm text-secondary leading-relaxed">
+                        To create digital experiences that not only look great but solve real problems and make a positive impact.
+                    </p>
+                </div>
+
+                <!-- Current Focus Card -->
+                <div class="col-span-12 md:col-span-6 row-span-1 bg-gradient-to-br from-purple-500/10 to-pink-500/10 border border-border rounded-2xl p-6">
+                    <h3 class="text-lg font-bold text-primary mb-3">Currently Exploring</h3>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="px-3 py-1.5 rounded-full text-xs font-bold bg-primary/10 text-primary border border-primary/20">AI/ML Integration</span>
+                        <span class="px-3 py-1.5 rounded-full text-xs font-bold bg-primary/10 text-primary border border-primary/20">Web3</span>
+                        <span class="px-3 py-1.5 rounded-full text-xs font-bold bg-primary/10 text-primary border border-primary/20">Cloud Architecture</span>
+                    </div>
+                </div>
+
+                <!-- Fun Fact Card -->
+                <div class="col-span-12 md:col-span-6 row-span-1 bg-gradient-to-br from-yellow-500/10 to-orange-500/10 border border-border rounded-2xl p-6">
+                    <h3 class="text-lg font-bold text-primary mb-3">When Not Coding</h3>
+                    <p class="text-sm text-secondary leading-relaxed">
+                        You'll find me reading tech blogs, attending meetups, or experimenting with new frameworks in my home lab.
                     </p>
                 </div>
             </div>
