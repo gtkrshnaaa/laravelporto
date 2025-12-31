@@ -3,12 +3,5 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Public\PortfolioController;
 
-// Public Portfolio Routes
-Route::prefix('portfolio')->name('public.')->group(function () {
-    Route::get('/', [PortfolioController::class, 'show'])->name('home');
-});
-
-// Redirect root to portfolio
-Route::get('/', function () {
-    return redirect()->route('public.home');
-});
+// Public Portfolio Homepage at Root URL
+Route::get('/', [PortfolioController::class, 'show'])->name('public.home');
