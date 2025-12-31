@@ -3,128 +3,262 @@
 @section('title', 'Home')
 
 @section('content')
-    <!-- Hero Section -->
-    <section class="relative pt-24 pb-0 md:pt-32 md:pb-0 overflow-hidden mb-0">
+    <div x-data="{
+        activeTestimonial: 0,
+        testimonials: {{ Js::from($testimonials) }},
+        stats: {{ Js::from($statistics) }},
+        animatedStats: {},
+        init() {
+            // Initialize stats at 0
+            this.stats.forEach((stat, index) => {
+                this.animatedStats[index] = 0;
+            });
+            
+            // Auto-play testimonials
+            setInterval(() => {
+                this.activeTestimonial = (this.activeTestimonial + 1) % this.testimonials.length;
+            }, 5000);
+            
+            // Animate stats when visible
+            const statsObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        this.animateStats();
+                        statsObserver.disconnect();
+                    }
+                });
+            });
+            const statsSection = document.getElementById('stats-section');
+            if (statsSection) statsObserver.observe(statsSection);
+        },
+        animateStats() {
+            this.stats.forEach((stat, index) => {
+                let current = 0;
+                const target = stat.value;
+                const increment = target / 50;
+                const timer = setInterval(() => {
+                    current += increment;
+                    if (current >= target) {
+                        this.animatedStats[index] = target;
+                        clearInterval(timer);
+                    } else {
+                        this.animatedStats[index] = Math.floor(current);
+                    }
+                }, 30);
+            });
+        }
+    }">
+    
+    <!-- Hero Section Enhanced -->
+    <section class="relative pt-24 pb-16 md:pt-32 md:pb-24 overflow-hidden">
         <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-zinc-800/20 via-background to-background opacity-40"></div>
         
-        <div class="container mx-auto px-4 relative z-10 text-center min-h-[400px] flex flex-col justify-center items-center">
-            <h1 class="text-4xl md:text-8xl lg:text-9xl font-bold tracking-tighter text-primary mb-8 leading-tight pb-2">
+        <div class="container mx-auto px-4 relative z-10 text-center">
+            <h1 class="text-4xl md:text-8xl lg:text-9xl font-bold tracking-tighter text-primary mb-6 leading-tight animate-fadeIn">
                 {{ $portfolio_name }}
             </h1>
-            <p class="text-lg md:text-2xl text-secondary max-w-4xl mx-auto mb-4">
+            <p class="text-lg md:text-2xl text-secondary max-w-4xl mx-auto mb-4 animate-fadeIn" style="animation-delay: 0.2s;">
                 {{ $portfolio_profession }}
             </p>
-            <p class="text-base md:text-xl text-secondary/80 max-w-2xl mx-auto italic">
+            <p class="text-base md:text-xl text-secondary/80 max-w-2xl mx-auto italic mb-12 animate-fadeIn" style="animation-delay: 0.4s;">
                 {{ $portfolio_tagline }}
             </p>
+            
+            <!-- CTA Buttons -->
+            <div class="flex flex-col sm:flex-row gap-4 justify-center items-center mb-16 animate-fadeIn" style="animation-delay: 0.6s;">
+                <a href="#projects" class="group inline-flex items-center gap-2 bg-primary text-background font-bold px-8 py-4 rounded-full hover:opacity-90 transition-all hover:scale-105 shadow-lg shadow-primary/20">
+                    <span>View Projects</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5 group-hover:translate-x-1 transition-transform">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+                    </svg>
+                </a>
+                <a href="#contact" class="inline-flex items-center gap-2 border-2 border-primary text-primary font-bold px-8 py-4 rounded-full hover:bg-primary hover:text-background transition-all hover:scale-105">
+                    <span>Get In Touch</span>
+                </a>
+            </div>
+            
+            <!-- Scroll Indicator -->
+            <div class="flex justify-center animate-bounce">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-secondary">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 13.5L12 21m0 0l-7.5-7.5M12 21V3" />
+                </svg>
+            </div>
         </div>
     </section>
 
-    <!-- Projects Section with Bento Grid -->
-    <section id="projects" class="py-20 bg-background">
+    <!-- Statistics Section -->
+    <section id="stats-section" class="py-12 bg-background">
         <div class="container mx-auto px-4">
-            <!-- Section Header -->
-            <div class="mb-12">
-                <h2 class="text-3xl md:text-5xl font-bold text-primary mb-4 tracking-tight">
-                    Featured <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500">Projects</span>
-                </h2>
-                <p class="text-secondary text-lg max-w-xl">
-                    Check out my latest work and see what I've been building
-                </p>
-            </div>
-
-            <!-- Bento Grid -->
-            <div class="grid grid-cols-12 gap-4 auto-rows-[300px]">
-                @foreach($featured_projects as $index => $project)
-                    @if($index === 0)
-                        <!-- Large Featured Item (First Project) -->
-                        <div class="col-span-12 md:col-span-8 row-span-2 group bg-surface border border-border rounded-2xl overflow-hidden hover:shadow-xl hover:shadow-primary/5 hover:border-primary/30 transition-all duration-300 relative">
-                            @if($project['featured_image'])
-                                <img src="{{ $project['featured_image'] }}" alt="{{ $project['title'] }}" class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700">
-                            @else
-                                <div class="w-full h-full bg-gradient-to-br from-blue-500/10 via-purple-500/10 to-pink-500/10 flex items-center justify-center">
-                                    <div class="text-center p-8">
-                                        <h3 class="text-3xl font-bold text-primary mb-4">{{ $project['title'] }}</h3>
-                                        <p class="text-secondary text-lg mb-6">{{ $project['description'] }}</p>
-                                        <div class="flex flex-wrap gap-2 justify-center">
-                                            @foreach($project['tech_stack'] as $tech)
-                                                <span class="px-3 py-1.5 rounded-full text-xs font-bold bg-primary/10 text-primary border border-primary/20">
-                                                    {{ $tech }}
-                                                </span>
-                                            @endforeach
-                                        </div>
-                                    </div>
-                                </div>
-                            @endif
-                        </div>
-                    @elseif($index === 1)
-                        <!-- Medium Width Item (Second Project) -->
-                        <div class="col-span-12 md:col-span-4 row-span-1 group bg-surface border border-border rounded-2xl overflow-hidden hover:shadow-xl hover:shadow-primary/5 hover:border-primary/30 transition-all duration-300 relative">
-                            @if($project['featured_image'])
-                                <img src="{{ $project['featured_image'] }}" alt="{{ $project['title'] }}" class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700">
-                            @else
-                                <div class="w-full h-full bg-gradient-to-br from-green-500/10 via-teal-500/10 to-blue-500/10 flex items-center justify-center">
-                                    <div class="text-center p-6">
-                                        <h3 class="text-xl font-bold text-primary mb-2">{{ $project['title'] }}</h3>
-                                        <p class="text-secondary text-sm mb-4">{{ $project['description'] }}</p>
-                                        <div class="flex flex-wrap gap-1.5 justify-center">
-                                            @foreach($project['tech_stack'] as $tech)
-                                                <span class="px-2 py-1 rounded text-xs font-bold bg-primary/10 text-primary border border-primary/20">
-                                                    {{ $tech }}
-                                                </span>
-                                            @endforeach
-                                        </div>
-                                    </div>
-                                </div>
-                            @endif
-                        </div>
-                    @elseif($index === 2)
-                        <!-- Medium Width Item (Third Project) -->
-                        <div class="col-span-12 md:col-span-4 row-span-1 group bg-surface border border-border rounded-2xl overflow-hidden hover:shadow-xl hover:shadow-primary/5 hover:border-primary/30 transition-all duration-300 relative">
-                            @if($project['featured_image'])
-                                <img src="{{ $project['featured_image'] }}" alt="{{ $project['title'] }}" class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700">
-                            @else
-                                <div class="w-full h-full bg-gradient-to-br from-orange-500/10 via-red-500/10 to-pink-500/10 flex items-center justify-center">
-                                    <div class="text-center p-6">
-                                        <h3 class="text-xl font-bold text-primary mb-2">{{ $project['title'] }}</h3>
-                                        <p class="text-secondary text-sm mb-4">{{ $project['description'] }}</p>
-                                        <div class="flex flex-wrap gap-1.5 justify-center">
-                                            @foreach($project['tech_stack'] as $tech)
-                                                <span class="px-2 py-1 rounded text-xs font-bold bg-primary/10 text-primary border border-primary/20">
-                                                    {{ $tech }}
-                                                </span>
-                                            @endforeach
-                                        </div>
-                                    </div>
-                                </div>
-                            @endif
-                        </div>
-                    @endif
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+                @foreach($statistics as $index => $stat)
+                    <div class="bg-gradient-to-br {{ $loop->first ? 'from-blue-500/10 to-purple-500/10' : ($loop->iteration == 2 ? 'from-green-500/10 to-teal-500/10' : ($loop->iteration == 3 ? 'from-orange-500/10 to-red-500/10' : 'from-pink-500/10 to-purple-500/10')) }} border border-border rounded-2xl p-6 text-center hover:scale-105 transition-transform duration-300">
+                        <div class="text-4xl md:text-5xl font-bold text-primary mb-2" x-text="animatedStats[{{ $index }}] || 0"></div>
+                        <div class="text-sm md:text-base text-secondary font-medium">{{ $stat['label'] }}</div>
+                    </div>
                 @endforeach
             </div>
         </div>
     </section>
 
-    <!-- Services Section -->
-    <section id="services" class="py-20 bg-background">
+    <!-- Projects Section with Expanded Bento Grid -->
+    <section id="projects" class="py-20 bg-background">
         <div class="container mx-auto px-4">
             <!-- Section Header -->
-            <div class="mb-12">
+            <div class="mb-12 text-center">
                 <h2 class="text-3xl md:text-5xl font-bold text-primary mb-4 tracking-tight">
-                    What I <span class="text-transparent bg-clip-text bg-gradient-to-r from-green-400 via-blue-500 to-purple-600">Offer</span>
+                    Featured <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500">Projects</span>
                 </h2>
-                <p class="text-secondary text-lg max-w-xl">
+                <p class="text-secondary text-lg max-w-xl mx-auto">
+                    Check out my latest work and see what I've been building
+                </p>
+            </div>
+
+            <!-- Expanded Bento Grid - 6 Projects -->
+            <div class="grid grid-cols-12 gap-4 auto-rows-[280px]">
+                @foreach($featured_projects as $index => $project)
+                    <div class="
+                        {{ $project['size'] === 'large' ? 'col-span-12 md:col-span-8 row-span-2' : '' }}
+                        {{ $project['size'] === 'medium' ? 'col-span-12 md:col-span-4 row-span-2' : '' }}
+                        {{ $project['size'] === 'small' ? 'col-span-12 md:col-span-4 row-span-1' : '' }}
+                        group bg-surface border border-border rounded-2xl overflow-hidden hover:shadow-xl hover:shadow-primary/5 hover:border-primary/30 transition-all duration-300 relative
+                    ">
+                        <!-- Project Content -->
+                        <div class="w-full h-full bg-gradient-to-br 
+                            {{ $loop->first ? 'from-blue-500/10 via-purple-500/10 to-pink-500/10' : '' }}
+                            {{ $loop->iteration == 2 ? 'from-green-500/10 via-teal-500/10 to-blue-500/10' : '' }}
+                            {{ $loop->iteration == 3 ? 'from-orange-500/10 via-red-500/10 to-pink-500/10' : '' }}
+                            {{ $loop->iteration == 4 ? 'from-purple-500/10 via-pink-500/10 to-red-500/10' : '' }}
+                            {{ $loop->iteration == 5 ? 'from-yellow-500/10 via-orange-500/10 to-red-500/10' : '' }}
+                            {{ $loop->iteration == 6 ? 'from-cyan-500/10 via-blue-500/10 to-purple-500/10' : '' }}
+                            flex flex-col justify-between p-6
+                        ">
+                            <!-- Header with category and view count -->
+                            <div class="flex items-start justify-between">
+                                <span class="px-3 py-1 text-xs font-bold bg-primary/10 text-primary border border-primary/20 rounded-full">
+                                    {{ $project['category'] }}
+                                </span>
+                                <div class="flex items-center gap-1 text-xs text-secondary">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z" />
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                    </svg>
+                                    {{ number_format($project['view_count']) }}
+                                </div>
+                            </div>
+
+                            <!-- Project Info -->
+                            <div>
+                                <h3 class="text-xl md:text-2xl font-bold text-primary mb-2 group-hover:text-blue-500 transition-colors">
+                                    {{ $project['title'] }}
+                                </h3>
+                                <p class="text-secondary text-sm mb-4 line-clamp-2">
+                                    {{ $project['description'] }}
+                                </p>
+                                
+                                <!-- Tech Stack -->
+                                <div class="flex flex-wrap gap-1.5 mb-4">
+                                    @foreach(array_slice($project['tech_stack'], 0, 3) as $tech)
+                                        <span class="px-2 py-1 rounded text-xs font-bold bg-primary/5 text-primary border border-primary/10">
+                                            {{ $tech }}
+                                        </span>
+                                    @endforeach
+                                    @if(count($project['tech_stack']) > 3)
+                                        <span class="px-2 py-1 rounded text-xs font-bold text-secondary">
+                                            +{{ count($project['tech_stack']) - 3 }}
+                                        </span>
+                                    @endif
+                                </div>
+
+                                <!-- Links -->
+                                <div class="flex gap-3">
+                                    @if($project['repository_url'])
+                                        <a href="{{ $project['repository_url'] }}" target="_blank" class="text-sm font-medium text-primary hover:text-accent transition-colors flex items-center gap-1">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
+                                                <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.070 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.020.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.840 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.430.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                                            </svg>
+                                            Code
+                                        </a>
+                                    @endif
+                                    @if($project['live_url'])
+                                        <a href="{{ $project['live_url'] }}" target="_blank" class="text-sm font-medium text-primary hover:text-accent transition-colors flex items-center gap-1">
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4">
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25" />
+                                            </svg>
+                                            Live
+                                        </a>
+                                    @endif
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Hover Overlay -->
+                        <div class="absolute inset-0 bg-primary/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"></div>
+                    </div>
+                @endforeach
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Showcase Section -->
+    <section id="skills" class="py-20 bg-background">
+        <div class="container mx-auto px-4">
+            <div class="mb-12 text-center">
+                <h2 class="text-3xl md:text-5xl font-bold text-primary mb-4 tracking-tight">
+                    Skills & <span class="text-transparent bg-clip-text bg-gradient-to-r from-green-400 via-blue-500 to-purple-600">Expertise</span>
+                </h2>
+                <p class="text-secondary text-lg max-w-xl mx-auto">
+                    Technologies and tools I work with
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                @foreach($skills as $category => $skillList)
+                    <div class="bg-surface border border-border rounded-2xl p-8">
+                        <h3 class="text-xl font-bold text-primary mb-6">{{ $category }}</h3>
+                        <div class="space-y-5">
+                            @foreach($skillList as $skill)
+                                <div>
+                                    <div class="flex justify-between mb-2">
+                                        <span class="text-sm font-medium text-primary">{{ $skill['name'] }}</span>
+                                        <span class="text-sm font-bold text-secondary">{{ $skill['level'] }}%</span>
+                                    </div>
+                                    <div class="w-full bg-background border border-border rounded-full h-2.5 overflow-hidden">
+                                        <div class="bg-gradient-to-r from-blue-500 to-purple-500 h-full rounded-full transition-all duration-1000 ease-out" style="width: {{ $skill['level'] }}%"></div>
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
+                    </div>
+                @endforeach
+            </div>
+        </div>
+    </section>
+
+    <!-- Enhanced Services Section -->
+    <section id="services" class="py-20 bg-background">
+        <div class="container mx-auto px-4">
+            <div class="mb-12 text-center">
+                <h2 class="text-3xl md:text-5xl font-bold text-primary mb-4 tracking-tight">
+                    What I <span class="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 via-red-500 to-pink-600">Offer</span>
+                </h2>
+                <p class="text-secondary text-lg max-w-xl mx-auto">
                     Professional services tailored to your needs
                 </p>
             </div>
 
-            <!-- Services Grid -->
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
                 @foreach($services as $service)
-                    <div class="bg-surface border border-border rounded-2xl p-8 hover:shadow-xl hover:shadow-primary/5 hover:border-primary/30 transition-all duration-300 group">
-                        <!-- Icon (placeholder using simple shapes) -->
+                    <div class="relative bg-surface border border-border rounded-2xl p-8 hover:shadow-xl hover:shadow-primary/5 hover:border-primary/30 transition-all duration-300 group">
+                        <!-- Popular Badge -->
+                        @if($service['is_popular'])
+                            <div class="absolute -top-3 -right-3 bg-gradient-to-r from-blue-500 to-purple-500 text-white text-xs font-bold px-4 py-1.5 rounded-full shadow-lg">
+                                POPULAR
+                            </div>
+                        @endif
+
+                        <!-- Icon -->
                         <div class="w-14 h-14 rounded-full bg-primary/10 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
-                            <div class="w-6 h-6 bg-primary/30 rounded-full"></div>
+                            <div class="w-7 h-7 bg-gradient-to-br from-primary/40 to-primary/20 rounded-full"></div>
                         </div>
                         
                         <h3 class="text-2xl font-bold text-primary mb-3 group-hover:text-blue-500 transition-colors">
@@ -134,17 +268,104 @@
                         <p class="text-secondary mb-6">
                             {{ $service['description'] }}
                         </p>
+
+                        <!-- Features List -->
+                        <ul class="space-y-2 mb-6">
+                            @foreach($service['features'] as $feature)
+                                <li class="flex items-start gap-2 text-sm text-secondary">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                    </svg>
+                                    {{ $feature }}
+                                </li>
+                            @endforeach
+                        </ul>
                         
-                        <div class="flex items-center justify-between">
-                            <span class="text-sm font-mono text-secondary">
-                                From <span class="text-primary font-bold">${{ $service['price_start'] }}</span>
-                            </span>
-                            <button class="text-primary hover:text-accent transition-colors font-medium text-sm">
-                                Learn More →
+                        <div class="flex items-center justify-between pt-6 border-t border-border">
+                            <div>
+                                <span class="text-xs text-secondary">Starting from</span>
+                                <span class="block text-2xl font-bold text-primary">${{ $service['price_start'] }}</span>
+                            </div>
+                            <button class="bg-primary text-background px-6 py-2.5 rounded-full font-bold text-sm hover:opacity-90 transition-all hover:scale-105 flex items-center gap-2">
+                                Get Started
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+                                </svg>
                             </button>
                         </div>
                     </div>
                 @endforeach
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Carousel Section -->
+    <section id="testimonials" class="py-20 bg-background">
+        <div class="container mx-auto px-4">
+            <div class="mb-12 text-center">
+                <h2 class="text-3xl md:text-5xl font-bold text-primary mb-4 tracking-tight">
+                    Client <span class="text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 via-orange-500 to-red-600">Testimonials</span>
+                </h2>
+                <p class="text-secondary text-lg max-w-xl mx-auto">
+                    What people say about working with me
+                </p>
+            </div>
+
+            <div class="max-w-4xl mx-auto">
+                <!-- Testimonial Cards -->
+                <div class="relative min-h-[300px]">
+                    <template x-for="(testimonial, index) in testimonials" :key="index">
+                        <div x-show="activeTestimonial === index"
+                             x-transition:enter="transition ease-out duration-300"
+                             x-transition:enter-start="opacity-0 translate-y-4"
+                             x-transition:enter-end="opacity-100 translate-y-0"
+                             x-transition:leave="transition ease-in duration-200"
+                             x-transition:leave-start="opacity-100 translate-y-0"
+                             x-transition:leave-end="opacity-0 -translate-y-4"
+                             class="absolute inset-0">
+                            
+                            <div class="bg-surface border border-border rounded-2xl p-8 md:p-12">
+                                <!-- Quote Icon -->
+                                <div class="text-6xl text-primary/10 mb-4">"</div>
+                                
+                                <!-- Testimonial Content -->
+                                <p class="text-lg md:text-xl text-primary mb-8 leading-relaxed" x-text="testimonial.content"></p>
+                                
+                                <!-- Rating -->
+                                <div class="flex gap-1 mb-6">
+                                    <template x-for="star in 5" :key="star">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" :fill="star <= testimonial.rating ? 'currentColor' : 'none'" stroke="currentColor" class="w-5 h-5 text-yellow-500">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.563.563 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z" />
+                                        </svg>
+                                    </template>
+                                </div>
+
+                                <!-- Client Info -->
+                                <div class="flex items-center gap-4">
+                                    <div class="w-12 h-12 rounded-full bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center">
+                                        <span class="text-lg font-bold text-primary" x-text="testimonial.client_name.charAt(0)"></span>
+                                    </div>
+                                    <div>
+                                        <div class="font-bold text-primary" x-text="testimonial.client_name"></div>
+                                        <div class="text-sm text-secondary">
+                                            <span x-text="testimonial.client_position"></span> at 
+                                            <span x-text="testimonial.client_company"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </template>
+                </div>
+
+                <!-- Navigation Dots -->
+                <div class="flex justify-center gap-2 mt-8">
+                    <template x-for="(testimonial, index) in testimonials" :key="index">
+                        <button @click="activeTestimonial = index"
+                                :class="activeTestimonial === index ? 'bg-primary w-8' : 'bg-border w-3'"
+                                class="h-3 rounded-full transition-all duration-300"></button>
+                    </template>
+                </div>
             </div>
         </div>
     </section>
@@ -164,15 +385,43 @@
                     </p>
                     <p class="text-secondary text-lg leading-relaxed">
                         When I'm not coding, you'll find me exploring new technologies, contributing to 
-                        open-source projects, or sharing knowledge with the developer community.
+                        open-source projects, or sharing knowledge with the developer community. Let's build 
+                        something amazing together!
                     </p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Contact Section -->
-    <section id="contact" class="py-20 mb-12">
+    <!-- Enhanced Contact Section -->
+    <section id="contact" class="py-20 mb-12"
+             x-data="{
+                 formData: { name: '', email: '', message: '' },
+                 errors: {},
+                 isSubmitting: false,
+                 submitted: false,
+                 validateField(field) {
+                     this.errors[field] = '';
+                     if (field === 'email' && this.formData.email && !this.formData.email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
+                         this.errors.email = 'Invalid email format';
+                     }
+                     if (!this.formData[field]) {
+                         this.errors[field] = 'This field is required';
+                     }
+                 },
+                 async submitForm() {
+                     this.errors = {};
+                     ['name', 'email', 'message'].forEach(field => this.validateField(field));
+                     if (Object.keys(this.errors).some(key => this.errors[key])) return;
+                     
+                     this.isSubmitting = true;
+                     await new Promise(resolve => setTimeout(resolve, 2000));
+                     this.isSubmitting = false;
+                     this.submitted = true;
+                     this.formData = { name: '', email: '', message: '' };
+                     setTimeout(() => this.submitted = false, 5000);
+                 }
+             }">
         <div class="container mx-auto px-4">
             <div class="max-w-2xl mx-auto">
                 <div class="relative overflow-hidden rounded-3xl bg-primary px-8 py-12 md:px-12 md:py-16 shadow-2xl shadow-primary/20">
@@ -180,33 +429,65 @@
                     <div class="absolute top-0 left-0 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-gradient-to-br from-blue-500/30 to-purple-500/30 blur-3xl rounded-full pointer-events-none"></div>
                     <div class="absolute bottom-0 right-0 translate-x-1/2 translate-y-1/2 w-[500px] h-[500px] bg-gradient-to-tl from-red-500/30 to-yellow-500/30 blur-3xl rounded-full pointer-events-none"></div>
 
-                    <div class="relative z-10 text-center">
-                        <h2 class="text-3xl font-bold tracking-tight text-background sm:text-4xl leading-tight mb-4">
-                            Let's Work <br>
-                            <span class="text-transparent bg-clip-text bg-gradient-to-r from-yellow-300 to-orange-400">Together</span>
-                        </h2>
-                        <p class="mt-4 max-w-xl text-lg text-background mx-auto mb-8">
-                            Have a project in mind? Let's discuss how we can bring your ideas to life.
-                        </p>
+                    <div class="relative z-10">
+                        <div class="text-center mb-8">
+                            <h2 class="text-3xl font-bold tracking-tight text-background sm:text-4xl leading-tight mb-4">
+                                Let's Work <br>
+                                <span class="text-transparent bg-clip-text bg-gradient-to-r from-yellow-300 to-orange-400">Together</span>
+                            </h2>
+                            <p class="text-lg text-background/90">
+                                Have a project in mind? Let's discuss how we can bring your ideas to life.
+                            </p>
+                        </div>
+
+                        <!-- Success Message -->
+                        <div x-show="submitted" 
+                             x-transition
+                             class="mb-6 p-4 bg-green-500/20 border border-green-500/30 rounded-lg text-background text-center font-medium">
+                            Message sent successfully! I'll get back to you soon.
+                        </div>
                         
                         <!-- Contact Form -->
-                        <form class="space-y-6 text-left">
+                        <form @submit.prevent="submitForm" class="space-y-6 text-left">
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 <div>
-                                    <label for="name" class="block text-sm font-medium text-background mb-2">Name</label>
-                                    <input type="text" id="name" name="name" class="w-full px-4 py-3 rounded-lg bg-background/10 border border-background/20 text-background placeholder-background/50 focus:outline-none focus:ring-2 focus:ring-background/30 backdrop-blur-sm" placeholder="John Doe">
+                                    <label for="name" class="block text-sm font-medium text-background mb-2">Name *</label>
+                                    <input type="text" id="name" x-model="formData.name" @blur="validateField('name')" 
+                                           class="w-full px-4 py-3 rounded-lg bg-background/10 border text-background placeholder-background/50 focus:outline-none focus:ring-2 focus:ring-background/30 backdrop-blur-sm transition-all"
+                                           :class="errors.name ? 'border-red-400' : 'border-background/20'"
+                                           placeholder="John Doe">
+                                    <p x-show="errors.name" x-text="errors.name" class="text-xs text-red-300 mt-1"></p>
                                 </div>
                                 <div>
-                                    <label for="email" class="block text-sm font-medium text-background mb-2">Email</label>
-                                    <input type="email" id="email" name="email" class="w-full px-4 py-3 rounded-lg bg-background/10 border border-background/20 text-background placeholder-background/50 focus:outline-none focus:ring-2 focus:ring-background/30 backdrop-blur-sm" placeholder="john@example.com">
+                                    <label for="email" class="block text-sm font-medium text-background mb-2">Email *</label>
+                                    <input type="email" id="email" x-model="formData.email" @blur="validateField('email')"
+                                           class="w-full px-4 py-3 rounded-lg bg-background/10 border text-background placeholder-background/50 focus:outline-none focus:ring-2 focus:ring-background/30 backdrop-blur-sm transition-all"
+                                           :class="errors.email ? 'border-red-400' : 'border-background/20'"
+                                           placeholder="john@example.com">
+                                    <p x-show="errors.email" x-text="errors.email" class="text-xs text-red-300 mt-1"></p>
                                 </div>
                             </div>
                             <div>
-                                <label for="message" class="block text-sm font-medium text-background mb-2">Message</label>
-                                <textarea id="message" name="message" rows="4" class="w-full px-4 py-3 rounded-lg bg-background/10 border border-background/20 text-background placeholder-background/50 focus:outline-none focus:ring-2 focus:ring-background/30 backdrop-blur-sm resize-none" placeholder="Tell me about your project..."></textarea>
+                                <div class="flex justify-between items-center mb-2">
+                                    <label for="message" class="block text-sm font-medium text-background">Message *</label>
+                                    <span class="text-xs text-background/70" x-text="`${formData.message.length}/500`"></span>
+                                </div>
+                                <textarea id="message" x-model="formData.message" @blur="validateField('message')" maxlength="500" rows="4"
+                                          class="w-full px-4 py-3 rounded-lg bg-background/10 border text-background placeholder-background/50 focus:outline-none focus:ring-2 focus:ring-background/30 backdrop-blur-sm resize-none transition-all"
+                                          :class="errors.message ? 'border-red-400' : 'border-background/20'"
+                                          placeholder="Tell me about your project..."></textarea>
+                                <p x-show="errors.message" x-text="errors.message" class="text-xs text-red-300 mt-1"></p>
                             </div>
-                            <button type="submit" class="w-full md:w-auto rounded-full bg-background px-8 py-3.5 text-sm font-bold text-primary shadow-sm hover:opacity-90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white transition-all transform hover:scale-105">
-                                Send Message
+                            <button type="submit" 
+                                    :disabled="isSubmitting"
+                                    :class="isSubmitting ? 'opacity-70 cursor-not-allowed' : 'hover:opacity-90 hover:scale-105'"
+                                    class="w-full md:w-auto rounded-full bg-background px-8 py-3.5 text-sm font-bold text-primary shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white transition-all transform flex items-center justify-center gap-2">
+                                <span x-show="!isSubmitting">Send Message</span>
+                                <span x-show="isSubmitting">Sending...</span>
+                                <svg x-show="isSubmitting" class="animate-spin h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                </svg>
                             </button>
                         </form>
                     </div>
@@ -214,4 +495,42 @@
             </div>
         </div>
     </section>
+
+    <!-- Floating Back to Top Button -->
+    <div x-data="{ showButton: false }"
+         @scroll.window="showButton = window.pageYOffset > 300"
+         x-show="showButton"
+         x-transition
+         class="fixed bottom-8 right-8 z-50">
+        <button @click="window.scrollTo({ top: 0, behavior: 'smooth' })"
+                class="bg-primary text-background p-4 rounded-full shadow-lg hover:scale-110 transition-transform">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 15.75l7.5-7.5 7.5 7.5" />
+            </svg>
+        </button>
+    </div>
+
+    </div>
+
+    <style>
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate-fadeIn {
+            animation: fadeIn 0.8s ease-out forwards;
+            opacity: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+    </style>
 @endsection
