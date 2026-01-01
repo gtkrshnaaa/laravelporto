@@ -4,6 +4,10 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Public\PortfolioController;
 use App\Http\Controllers\Admin\AuthController;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\Projects\ProjectController;
+use App\Http\Controllers\Admin\Skills\SkillController;
+use App\Http\Controllers\Admin\Services\ServiceController;
+use App\Http\Controllers\Admin\Testimonials\TestimonialController;
 
 // Public Portfolio Homepage at Root URL
 Route::get('/', [PortfolioController::class, 'show'])->name('public.home');
@@ -18,6 +22,16 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::middleware(['App\Http\Middleware\AdminAuth'])->group(function () {
         Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
         
-        // CRUD routes will be added here after controllers are created
+        // Projects CRUD
+        Route::resource('projects', ProjectController::class);
+        
+        // Skills CRUD
+        Route::resource('skills', SkillController::class);
+        
+        // Services CRUD
+        Route::resource('services', ServiceController::class);
+        
+        // Testimonials CRUD
+        Route::resource('testimonials', TestimonialController::class);
     });
 });
