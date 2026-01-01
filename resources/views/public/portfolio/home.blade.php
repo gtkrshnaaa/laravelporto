@@ -105,16 +105,34 @@
                 </p>
             </div>
 
-            <!-- Expanded Bento Grid - 6 Projects -->
-            <div class="grid grid-cols-12 gap-4 auto-rows-[280px]">
-                @foreach($featured_projects as $index => $project)
-                    <div class="
-                        {{ $project['size'] === 'large' ? 'col-span-12 md:col-span-8 row-span-2' : '' }}
-                        {{ $project['size'] === 'medium' ? 'col-span-12 md:col-span-4 row-span-2' : '' }}
-                        {{ $project['size'] === 'small' ? 'col-span-12 md:col-span-4 row-span-1' : '' }}
-                        group bg-surface border border-border rounded-2xl overflow-hidden hover:shadow-xl hover:shadow-primary/5 hover:border-primary/30 transition-all duration-300 relative
-                    ">
-                        <!-- Project Content -->
+            <!-- Bento Grid - Fixed Layout Pattern -->
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-4 md:gap-6">
+                @php
+                    $displayProjects = $featured_projects->take(6);
+                @endphp
+                
+                @foreach($displayProjects as $index => $project)
+                    @if($index === 0)
+                        {{-- First project: Large (8 cols, 2 rows) --}}
+                        <div class="md:col-span-8 md:row-span-2 group bg-surface border border-border rounded-2xl overflow-hidden hover:shadow-xl hover:shadow-primary/5 hover:border-primary/30 transition-all duration-300 relative min-h-[400px] md:min-h-0">
+                    @elseif($index === 1)
+                        {{-- Second project: Tall (4 cols, 2 rows) --}}
+                        <div class="md:col-span-4 md:row-span-2 group bg-surface border border-border rounded-2xl overflow-hidden hover:shadow-xl hover:shadow-primary/5 hover:border-primary/30 transition-all duration-300 relative min-h-[400px] md:min-h-0">
+                    @elseif($index === 2)
+                        {{-- Third project: Wide (6 cols, 1 row) --}}
+                        <div class="md:col-span-6 md:row-span-1 group bg-surface border border-border rounded-2xl overflow-hidden hover:shadow-xl hover:shadow-primary/5 hover:border-primary/30 transition-all duration-300 relative min-h-[280px] md:min-h-0">
+                    @elseif($index === 3)
+                        {{-- Fourth project: Medium (3 cols, 1 row) --}}
+                        <div class="md:col-span-3 md:row-span-1 group bg-surface border border-border rounded-2xl overflow-hidden hover:shadow-xl hover:shadow-primary/5 hover:border-primary/30 transition-all duration-300 relative min-h-[280px] md:min-h-0">
+                    @elseif($index === 4)
+                        {{-- Fifth project: Medium (3 cols, 1 row) --}}
+                        <div class="md:col-span-3 md:row-span-1 group bg-surface border border-border rounded-2xl overflow-hidden hover:shadow-xl hover:shadow-primary/5 hover:border-primary/30 transition-all duration-300 relative min-h-[280px] md:min-h-0">
+                    @else
+                        {{-- Sixth project: Wide (6 cols, 1 row) --}}
+                        <div class="md:col-span-6 md:row-span-1 group bg-surface border border-border rounded-2xl overflow-hidden hover:shadow-xl hover:shadow-primary/5 hover:border-primary/30 transition-all duration-300 relative min-h-[280px] md:min-h-0">
+                    @endif
+                    
+                        {{-- Project Content --}}
                         <div class="w-full h-full bg-gradient-to-br 
                             {{ $loop->first ? 'from-blue-500/10 via-purple-500/10 to-pink-500/10' : '' }}
                             {{ $loop->iteration == 2 ? 'from-green-500/10 via-teal-500/10 to-blue-500/10' : '' }}
@@ -124,55 +142,55 @@
                             {{ $loop->iteration == 6 ? 'from-cyan-500/10 via-blue-500/10 to-purple-500/10' : '' }}
                             flex flex-col justify-between p-6
                         ">
-                            <!-- Header with category and view count -->
+                            {{-- Header with category and view count --}}
                             <div class="flex items-start justify-between">
                                 <span class="px-3 py-1 text-xs font-bold bg-primary/10 text-primary border border-primary/20 rounded-full">
-                                    {{ $project['category'] }}
+                                    {{ $project->category }}
                                 </span>
                                 <div class="flex items-center gap-1 text-xs text-secondary">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
                                         <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z" />
                                         <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                                     </svg>
-                                    {{ number_format($project['view_count']) }}
+                                    {{ number_format($project->view_count) }}
                                 </div>
                             </div>
 
-                            <!-- Project Info -->
+                            {{-- Project Info --}}
                             <div>
                                 <h3 class="text-xl md:text-2xl font-bold text-primary mb-2 group-hover:text-blue-500 transition-colors">
-                                    {{ $project['title'] }}
+                                    {{ $project->title }}
                                 </h3>
                                 <p class="text-secondary text-sm mb-4 line-clamp-2">
-                                    {{ $project['description'] }}
+                                    {{ $project->description }}
                                 </p>
                                 
-                                <!-- Tech Stack -->
+                                {{-- Tech Stack --}}
                                 <div class="flex flex-wrap gap-1.5 mb-4">
-                                    @foreach(array_slice($project['tech_stack'], 0, 3) as $tech)
+                                    @foreach(array_slice($project->tech_stack, 0, 3) as $tech)
                                         <span class="px-2 py-1 rounded text-xs font-bold bg-primary/5 text-primary border border-primary/10">
                                             {{ $tech }}
                                         </span>
                                     @endforeach
-                                    @if(count($project['tech_stack']) > 3)
+                                    @if(count($project->tech_stack) > 3)
                                         <span class="px-2 py-1 rounded text-xs font-bold text-secondary">
-                                            +{{ count($project['tech_stack']) - 3 }}
+                                            +{{ count($project->tech_stack) - 3 }}
                                         </span>
                                     @endif
                                 </div>
 
-                                <!-- Links -->
+                                {{-- Links --}}
                                 <div class="flex gap-3">
-                                    @if($project['repository_url'])
-                                        <a href="{{ $project['repository_url'] }}" target="_blank" class="text-sm font-medium text-primary hover:text-accent transition-colors flex items-center gap-1">
+                                    @if($project->repository_url)
+                                        <a href="{{ $project->repository_url }}" target="_blank" class="text-sm font-medium text-primary hover:text-accent transition-colors flex items-center gap-1">
                                             <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
                                                 <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.070 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.020.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.840 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.430.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
                                             </svg>
                                             Code
                                         </a>
                                     @endif
-                                    @if($project['live_url'])
-                                        <a href="{{ $project['live_url'] }}" target="_blank" class="text-sm font-medium text-primary hover:text-accent transition-colors flex items-center gap-1">
+                                    @if($project->live_url)
+                                        <a href="{{ $project->live_url }}" target="_blank" class="text-sm font-medium text-primary hover:text-accent transition-colors flex items-center gap-1">
                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4">
                                                 <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25" />
                                             </svg>
@@ -182,7 +200,6 @@
                                 </div>
                             </div>
                         </div>
-
                         <!-- Hover Overlay -->
                         <div class="absolute inset-0 bg-primary/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"></div>
                     </div>
