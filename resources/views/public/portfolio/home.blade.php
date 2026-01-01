@@ -304,7 +304,7 @@
                         
                         <!-- Popular Badge -->
                         @if($service->is_popular)
-                            <div class="absolute -top-3 -right-3 bg-gradient-to-r from-blue-500 to-purple-500 text-white text-xs font-bold px-4 py-1.5 rounded-full shadow-lg z-20">
+                            <div class="absolute -top-3 -right-3 bg-gradient-to-r from-blue-500 to-purple-500 text-white text-xs font-bold px-4 py-1.5 rounded-full shadow-lg z-50">
                                 ⭐ POPULAR
                             </div>
                         @endif
