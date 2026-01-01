@@ -21,7 +21,9 @@ class Project extends Model
         'is_featured',
         'size',
         'featured_image',
+        'display_order',
     ];
+
 
     protected $casts = [
         'tech_stack' => 'array',
