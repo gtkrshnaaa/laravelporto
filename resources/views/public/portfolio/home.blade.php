@@ -227,63 +227,45 @@
                 </p>
             </div>
 
-            <!-- Bento Grid Layout for Skills -->
-            <div class="grid grid-cols-1 md:grid-cols-12 gap-4 md:gap-6">
-                @php
-                    $categoryIndex = 0;
-                @endphp
+            <!-- Simple Grid Layout for Skills -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 @foreach($skills as $category => $skillList)
-                    @if($categoryIndex === 0)
-                        {{-- First category: Large (7 cols) --}}
-                        <div class="md:col-span-7 relative bg-surface border border-border rounded-2xl p-6 md:p-8 hover:shadow-xl hover:shadow-primary/5 hover:border-primary/30 transition-all duration-300 overflow-hidden">
-                            <div class="absolute top-0 right-0 w-32 h-32 opacity-30 pointer-events-none">
-                                <div class="w-full h-full bg-gradient-to-br from-blue-500 via-purple-500 to-pink-500 rounded-full blur-3xl"></div>
-                            </div>
-                    @elseif($categoryIndex === 1)
-                        {{-- Second category: Medium (5 cols) --}}
-                        <div class="md:col-span-5 relative bg-surface border border-border rounded-2xl p-6 md:p-8 hover:shadow-xl hover:shadow-primary/5 hover:border-primary/30 transition-all duration-300 overflow-hidden">
-                            <div class="absolute top-0 right-0 w-32 h-32 opacity-30 pointer-events-none">
-                                <div class="w-full h-full bg-gradient-to-br from-green-500 via-teal-500 to-blue-500 rounded-full blur-3xl"></div>
-                            </div>
-                    @elseif($categoryIndex === 2)
-                        {{-- Third category: Medium (5 cols) --}}
-                        <div class="md:col-span-5 relative bg-surface border border-border rounded-2xl p-6 md:p-8 hover:shadow-xl hover:shadow-primary/5 hover:border-primary/30 transition-all duration-300 overflow-hidden">
-                            <div class="absolute top-0 right-0 w-32 h-32 opacity-30 pointer-events-none">
-                                <div class="w-full h-full bg-gradient-to-br from-orange-500 via-red-500 to-pink-500 rounded-full blur-3xl"></div>
-                            </div>
-                    @else
-                        {{-- Fourth+ category: Large (7 cols) --}}
-                        <div class="md:col-span-7 relative bg-surface border border-border rounded-2xl p-6 md:p-8 hover:shadow-xl hover:shadow-primary/5 hover:border-primary/30 transition-all duration-300 overflow-hidden">
-                            <div class="absolute top-0 right-0 w-32 h-32 opacity-30 pointer-events-none">
-                                <div class="w-full h-full bg-gradient-to-br from-purple-500 via-pink-500 to-red-500 rounded-full blur-3xl"></div>
-                            </div>
-                    @endif
-                        <div class="relative z-10">
-                        <div class="flex items-center gap-3 mb-6">
-                            <div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5 text-primary">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 00-2.456 2.456zM16.894 20.567L16.5 21.75l-.394-1.183a2.25 2.25 0 00-1.423-1.423L13.5 18.75l1.183-.394a2.25 2.25 0 001.423-1.423l.394-1.183.394 1.183a2.25 2.25 0 001.423 1.423l1.183.394-1.183.394a2.25 2.25 0 00-1.423 1.423z" />
-                                </svg>
-                            </div>
-                            <h3 class="text-xl md:text-2xl font-bold text-primary">{{ $category }}</h3>
+                    <div class="relative bg-surface border border-border rounded-2xl p-6 md:p-8 hover:shadow-xl hover:shadow-primary/5 hover:border-primary/30 transition-all duration-300 overflow-hidden">
+                        <!-- Corner Gradient Accent -->
+                        <div class="absolute top-0 right-0 w-32 h-32 opacity-30 pointer-events-none">
+                            <div class="w-full h-full bg-gradient-to-br 
+                                {{ $loop->first ? 'from-blue-500 via-purple-500 to-pink-500' : '' }}
+                                {{ $loop->iteration == 2 ? 'from-green-500 via-teal-500 to-blue-500' : '' }}
+                                {{ $loop->iteration == 3 ? 'from-orange-500 via-red-500 to-pink-500' : '' }}
+                                {{ $loop->iteration == 4 ? 'from-purple-500 via-pink-500 to-red-500' : '' }}
+                                rounded-full blur-3xl"></div>
                         </div>
-                        <div class="grid grid-cols-1 {{ count($skillList) > 6 ? 'md:grid-cols-2' : '' }} gap-4">
-                            @foreach($skillList as $skill)
-                                <div class="group">
-                                    <div class="flex justify-between items-center mb-2">
-                                        <span class="text-sm font-semibold text-primary group-hover:text-blue-500 transition-colors">{{ $skill['name'] }}</span>
-                                        <span class="text-xs font-bold px-2 py-0.5 rounded-full bg-primary/10 text-primary">{{ $skill['level'] }}%</span>
-                                    </div>
-                                    <div class="w-full bg-background/50 border border-border/50 rounded-full h-2 overflow-hidden">
-                                        <div class="bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 h-full rounded-full transition-all duration-1000 ease-out group-hover:scale-105" style="width: {{ $skill['level'] }}%"></div>
-                                    </div>
+                        
+                        <div class="relative z-10">
+                            <div class="flex items-center gap-3 mb-6">
+                                <div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5 text-primary">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 00-2.456 2.456zM16.894 20.567L16.5 21.75l-.394-1.183a2.25 2.25 0 00-1.423-1.423L13.5 18.75l1.183-.394a2.25 2.25 0 001.423-1.423l.394-1.183.394 1.183a2.25 2.25 0 001.423 1.423l1.183.394-1.183.394a2.25 2.25 0 00-1.423 1.423z" />
+                                    </svg>
                                 </div>
-                            @endforeach
+                                <h3 class="text-xl md:text-2xl font-bold text-primary">{{ $category }}</h3>
+                            </div>
+                            
+                            <div class="space-y-4">
+                                @foreach($skillList as $skill)
+                                    <div class="group">
+                                        <div class="flex justify-between items-center mb-2">
+                                            <span class="text-sm font-semibold text-primary group-hover:text-blue-500 transition-colors">{{ $skill['name'] }}</span>
+                                            <span class="text-xs font-bold px-2 py-0.5 rounded-full bg-primary/10 text-primary">{{ $skill['level'] }}%</span>
+                                        </div>
+                                        <div class="w-full bg-background/50 border border-border/50 rounded-full h-2 overflow-hidden">
+                                            <div class="bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 h-full rounded-full transition-all duration-1000 ease-out group-hover:scale-105" style="width: {{ $skill['level'] }}%"></div>
+                                        </div>
+                                    </div>
+                                @endforeach
+                            </div>
                         </div>
                     </div>
-                    @php
-                        $categoryIndex++;
-                    @endphp
                 @endforeach
             </div>
         </div>
@@ -301,7 +283,82 @@
                 </p>
             </div>
 
-            <!-- Bento Grid Layout for Services -->
+            <!-- Simple Grid Layout for Services -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                @php
+                    $displayServices = $services->take(6);
+                @endphp
+                @foreach($displayServices as $index => $service)
+                    <div class="relative bg-surface border border-border rounded-2xl p-6 md:p-8 hover:shadow-xl hover:shadow-primary/5 hover:border-primary/30 transition-all duration-300 group overflow-hidden">
+                        <!-- Corner Gradient Accent -->
+                        <div class="absolute top-0 right-0 w-32 h-32 opacity-30 pointer-events-none">
+                            <div class="w-full h-full bg-gradient-to-br 
+                                {{ $loop->first ? 'from-blue-500 via-purple-500 to-pink-500' : '' }}
+                                {{ $loop->iteration == 2 ? 'from-green-500 via-teal-500 to-blue-500' : '' }}
+                                {{ $loop->iteration == 3 ? 'from-orange-500 via-red-500 to-pink-500' : '' }}
+                                {{ $loop->iteration == 4 ? 'from-purple-500 via-pink-500 to-red-500' : '' }}
+                                {{ $loop->iteration == 5 ? 'from-yellow-500 via-orange-500 to-red-500' : '' }}
+                                {{ $loop->iteration == 6 ? 'from-cyan-500 via-blue-500 to-purple-500' : '' }}
+                                rounded-full blur-3xl"></div>
+                        </div>
+                        
+                        <!-- Popular Badge -->
+                        @if($service->is_popular)
+                            <div class="absolute -top-3 -right-3 bg-gradient-to-r from-blue-500 to-purple-500 text-white text-xs font-bold px-4 py-1.5 rounded-full shadow-lg z-10">
+                                ⭐ POPULAR
+                            </div>
+                        @endif
+
+                        <div class="relative z-10 flex flex-col h-full">
+                            <!-- Header -->
+                            <div class="mb-4">
+                                <div class="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6 text-primary">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09z" />
+                                    </svg>
+                                </div>
+                                <h3 class="text-xl md:text-2xl font-bold text-primary mb-2 group-hover:text-blue-500 transition-colors">
+                                    {{ $service->title }}
+                                </h3>
+                                <p class="text-sm text-secondary line-clamp-2">
+                                    {{ $service->description }}
+                                </p>
+                            </div>
+
+                            <!-- Features -->
+                            <div class="flex-1 mb-4">
+                                <ul class="space-y-2">
+                                    @foreach(array_slice($service->features, 0, 4) as $feature)
+                                        <li class="flex items-start gap-2 text-xs text-secondary">
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-4 h-4 text-green-500 flex-shrink-0 mt-0.5">
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                                            </svg>
+                                            <span>{{ $feature }}</span>
+                                        </li>
+                                    @endforeach
+                                    @if(count($service->features) > 4)
+                                        <li class="text-xs text-secondary/60 pl-6">+{{ count($service->features) - 4 }} more...</li>
+                                    @endif
+                                </ul>
+                            </div>
+                            
+                            <!-- Price & CTA -->
+                            <div class="flex items-center justify-between pt-4 border-t border-border/50">
+                                <div>
+                                    <span class="text-xs text-secondary block">From</span>
+                                    <span class="text-xl md:text-2xl font-bold text-primary">${{ number_format($service->price_start) }}</span>
+                                </div>
+                                <button class="bg-primary text-background px-4 py-2 rounded-full font-bold text-xs md:text-sm hover:opacity-90 transition-all hover:scale-105 flex items-center gap-1.5">
+                                    <span>Start</span>
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-3.5 h-3.5">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                @endforeach
+            </div>
             <div class="grid grid-cols-1 md:grid-cols-12 gap-4 md:gap-6">
                 @php
                     $displayServices = $services->take(6);
@@ -416,7 +473,59 @@
                 </p>
             </div>
 
-            <!-- Bento Grid Layout for Testimonials -->
+            <!-- Simple Grid Layout for Testimonials -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                @php
+                    $displayTestimonials = $testimonials->take(6);
+                @endphp
+                @foreach($displayTestimonials as $index => $testimonial)
+                    <div class="relative bg-surface border border-border rounded-2xl p-6 md:p-8 hover:shadow-xl hover:shadow-primary/5 hover:border-primary/30 transition-all duration-300 group overflow-hidden">
+                        <!-- Corner Gradient Accent -->
+                        <div class="absolute top-0 right-0 w-32 h-32 opacity-30 pointer-events-none">
+                            <div class="w-full h-full bg-gradient-to-br 
+                                {{ $loop->first ? 'from-yellow-400 via-orange-500 to-red-600' : '' }}
+                                {{ $loop->iteration == 2 ? 'from-blue-500 via-purple-500 to-pink-500' : '' }}
+                                {{ $loop->iteration == 3 ? 'from-green-500 via-teal-500 to-blue-500' : '' }}
+                                {{ $loop->iteration == 4 ? 'from-purple-500 via-pink-500 to-red-500' : '' }}
+                                {{ $loop->iteration == 5 ? 'from-orange-500 via-red-500 to-pink-500' : '' }}
+                                {{ $loop->iteration == 6 ? 'from-cyan-500 via-blue-500 to-purple-500' : '' }}
+                                rounded-full blur-3xl"></div>
+                        </div>
+                        
+                        <div class="relative z-10 flex flex-col h-full">
+                            <!-- Quote Icon -->
+                            <div class="text-4xl text-primary/10 mb-3">"</div>
+                            
+                            <!-- Testimonial Content -->
+                            <p class="text-sm text-primary mb-4 leading-relaxed flex-1 line-clamp-4">
+                                {{ $testimonial->content }}
+                            </p>
+                            
+                            <!-- Rating -->
+                            <div class="flex gap-0.5 mb-3">
+                                @for($i = 1; $i <= 5; $i++)
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="{{ $i <= $testimonial->rating ? 'currentColor' : 'none' }}" stroke="currentColor" class="w-4 h-4 text-yellow-500">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.563.563 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z" />
+                                    </svg>
+                                @endfor
+                            </div>
+                            
+                            <!-- Client Info -->
+                            <div class="flex items-center gap-2.5">
+                                <div class="w-9 h-9 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
+                                    <span class="text-sm font-bold text-primary">{{ substr($testimonial->client_name, 0, 1) }}</span>
+                                </div>
+                                <div class="min-w-0">
+                                    <div class="font-bold text-primary text-sm truncate">{{ $testimonial->client_name }}</div>
+                                    <div class="text-xs text-secondary truncate">
+                                        {{ $testimonial->client_position }} • {{ $testimonial->client_company }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                @endforeach
+            </div>
             <div class="grid grid-cols-1 md:grid-cols-12 gap-4 md:gap-6">
                 @php
                     $displayTestimonials = $testimonials->take(6);
