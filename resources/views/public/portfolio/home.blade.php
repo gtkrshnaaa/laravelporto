@@ -208,7 +208,7 @@
         </div>
     </section>
 
-    <!-- Skills Showcase Section -->
+    <!-- Skills Showcase Section with Bento Grid -->
     <section id="skills" class="py-20 bg-background">
         <div class="container mx-auto px-4">
             <div class="mb-12 text-center">
@@ -220,30 +220,56 @@
                 </p>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <!-- Bento Grid Layout for Skills -->
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-4 md:gap-6">
+                @php
+                    $categoryIndex = 0;
+                @endphp
                 @foreach($skills as $category => $skillList)
-                    <div class="bg-surface border border-border rounded-2xl p-8">
-                        <h3 class="text-xl font-bold text-primary mb-6">{{ $category }}</h3>
-                        <div class="space-y-5">
+                    @if($categoryIndex === 0)
+                        {{-- First category: Large (7 cols) --}}
+                        <div class="md:col-span-7 bg-gradient-to-br from-blue-500/5 via-purple-500/5 to-pink-500/5 border border-border rounded-2xl p-6 md:p-8 hover:shadow-xl hover:shadow-primary/5 hover:border-primary/30 transition-all duration-300">
+                    @elseif($categoryIndex === 1)
+                        {{-- Second category: Medium (5 cols) --}}
+                        <div class="md:col-span-5 bg-gradient-to-br from-green-500/5 via-teal-500/5 to-blue-500/5 border border-border rounded-2xl p-6 md:p-8 hover:shadow-xl hover:shadow-primary/5 hover:border-primary/30 transition-all duration-300">
+                    @elseif($categoryIndex === 2)
+                        {{-- Third category: Medium (5 cols) --}}
+                        <div class="md:col-span-5 bg-gradient-to-br from-orange-500/5 via-red-500/5 to-pink-500/5 border border-border rounded-2xl p-6 md:p-8 hover:shadow-xl hover:shadow-primary/5 hover:border-primary/30 transition-all duration-300">
+                    @else
+                        {{-- Fourth+ category: Large (7 cols) --}}
+                        <div class="md:col-span-7 bg-gradient-to-br from-purple-500/5 via-pink-500/5 to-red-500/5 border border-border rounded-2xl p-6 md:p-8 hover:shadow-xl hover:shadow-primary/5 hover:border-primary/30 transition-all duration-300">
+                    @endif
+                        <div class="flex items-center gap-3 mb-6">
+                            <div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5 text-primary">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 00-2.456 2.456zM16.894 20.567L16.5 21.75l-.394-1.183a2.25 2.25 0 00-1.423-1.423L13.5 18.75l1.183-.394a2.25 2.25 0 001.423-1.423l.394-1.183.394 1.183a2.25 2.25 0 001.423 1.423l1.183.394-1.183.394a2.25 2.25 0 00-1.423 1.423z" />
+                                </svg>
+                            </div>
+                            <h3 class="text-xl md:text-2xl font-bold text-primary">{{ $category }}</h3>
+                        </div>
+                        <div class="grid grid-cols-1 {{ count($skillList) > 6 ? 'md:grid-cols-2' : '' }} gap-4">
                             @foreach($skillList as $skill)
-                                <div>
-                                    <div class="flex justify-between mb-2">
-                                        <span class="text-sm font-medium text-primary">{{ $skill['name'] }}</span>
-                                        <span class="text-sm font-bold text-secondary">{{ $skill['level'] }}%</span>
+                                <div class="group">
+                                    <div class="flex justify-between items-center mb-2">
+                                        <span class="text-sm font-semibold text-primary group-hover:text-blue-500 transition-colors">{{ $skill['name'] }}</span>
+                                        <span class="text-xs font-bold px-2 py-0.5 rounded-full bg-primary/10 text-primary">{{ $skill['level'] }}%</span>
                                     </div>
-                                    <div class="w-full bg-background border border-border rounded-full h-2.5 overflow-hidden">
-                                        <div class="bg-gradient-to-r from-blue-500 to-purple-500 h-full rounded-full transition-all duration-1000 ease-out" style="width: {{ $skill['level'] }}%"></div>
+                                    <div class="w-full bg-background/50 border border-border/50 rounded-full h-2 overflow-hidden">
+                                        <div class="bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 h-full rounded-full transition-all duration-1000 ease-out group-hover:scale-105" style="width: {{ $skill['level'] }}%"></div>
                                     </div>
                                 </div>
                             @endforeach
                         </div>
                     </div>
+                    @php
+                        $categoryIndex++;
+                    @endphp
                 @endforeach
             </div>
         </div>
     </section>
 
-    <!-- Enhanced Services Section -->
+    <!-- Enhanced Services Section with Bento Grid -->
     <section id="services" class="py-20 bg-background">
         <div class="container mx-auto px-4">
             <div class="mb-12 text-center">
@@ -255,52 +281,84 @@
                 </p>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                @foreach($services as $service)
-                    <div class="relative bg-surface border border-border rounded-2xl p-8 hover:shadow-xl hover:shadow-primary/5 hover:border-primary/30 transition-all duration-300 group">
+            <!-- Bento Grid Layout for Services -->
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-4 md:gap-6">
+                @php
+                    $displayServices = $services->take(6);
+                @endphp
+                @foreach($displayServices as $index => $service)
+                    @if($index === 0)
+                        {{-- First service: Large (8 cols) --}}
+                        <div class="md:col-span-8 relative bg-gradient-to-br from-blue-500/5 via-purple-500/5 to-pink-500/5 border border-border rounded-2xl p-6 md:p-8 hover:shadow-xl hover:shadow-primary/5 hover:border-primary/30 transition-all duration-300 group min-h-[300px]">
+                    @elseif($index === 1)
+                        {{-- Second service: Medium (4 cols) --}}
+                        <div class="md:col-span-4 relative bg-gradient-to-br from-green-500/5 via-teal-500/5 to-blue-500/5 border border-border rounded-2xl p-6 md:p-8 hover:shadow-xl hover:shadow-primary/5 hover:border-primary/30 transition-all duration-300 group min-h-[300px]">
+                    @elseif($index === 2)
+                        {{-- Third service: Medium (4 cols) --}}
+                        <div class="md:col-span-4 relative bg-gradient-to-br from-orange-500/5 via-red-500/5 to-pink-500/5 border border-border rounded-2xl p-6 md:p-8 hover:shadow-xl hover:shadow-primary/5 hover:border-primary/30 transition-all duration-300 group min-h-[300px]">
+                    @elseif($index === 3)
+                        {{-- Fourth service: Medium (4 cols) --}}
+                        <div class="md:col-span-4 relative bg-gradient-to-br from-purple-500/5 via-pink-500/5 to-red-500/5 border border-border rounded-2xl p-6 md:p-8 hover:shadow-xl hover:shadow-primary/5 hover:border-primary/30 transition-all duration-300 group min-h-[300px]">
+                    @elseif($index === 4)
+                        {{-- Fifth service: Medium (4 cols) --}}
+                        <div class="md:col-span-4 relative bg-gradient-to-br from-yellow-500/5 via-orange-500/5 to-red-500/5 border border-border rounded-2xl p-6 md:p-8 hover:shadow-xl hover:shadow-primary/5 hover:border-primary/30 transition-all duration-300 group min-h-[300px]">
+                    @else
+                        {{-- Sixth service: Large (8 cols) --}}
+                        <div class="md:col-span-8 relative bg-gradient-to-br from-cyan-500/5 via-blue-500/5 to-purple-500/5 border border-border rounded-2xl p-6 md:p-8 hover:shadow-xl hover:shadow-primary/5 hover:border-primary/30 transition-all duration-300 group min-h-[300px]">
+                    @endif
                         <!-- Popular Badge -->
-                        @if($service['is_popular'])
-                            <div class="absolute -top-3 -right-3 bg-gradient-to-r from-blue-500 to-purple-500 text-white text-xs font-bold px-4 py-1.5 rounded-full shadow-lg">
-                                POPULAR
+                        @if($service->is_popular)
+                            <div class="absolute -top-3 -right-3 bg-gradient-to-r from-blue-500 to-purple-500 text-white text-xs font-bold px-4 py-1.5 rounded-full shadow-lg z-10">
+                                ⭐ POPULAR
                             </div>
                         @endif
 
-                        <!-- Icon -->
-                        <div class="w-14 h-14 rounded-full bg-primary/10 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
-                            <div class="w-7 h-7 bg-gradient-to-br from-primary/40 to-primary/20 rounded-full"></div>
-                        </div>
-                        
-                        <h3 class="text-2xl font-bold text-primary mb-3 group-hover:text-blue-500 transition-colors">
-                            {{ $service['title'] }}
-                        </h3>
-                        
-                        <p class="text-secondary mb-6">
-                            {{ $service['description'] }}
-                        </p>
-
-                        <!-- Features List -->
-                        <ul class="space-y-2 mb-6">
-                            @foreach($service['features'] as $feature)
-                                <li class="flex items-start gap-2 text-sm text-secondary">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        <div class="flex flex-col h-full">
+                            <!-- Header -->
+                            <div class="mb-4">
+                                <div class="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6 text-primary">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09z" />
                                     </svg>
-                                    {{ $feature }}
-                                </li>
-                            @endforeach
-                        </ul>
-                        
-                        <div class="flex items-center justify-between pt-6 border-t border-border">
-                            <div>
-                                <span class="text-xs text-secondary">Starting from</span>
-                                <span class="block text-2xl font-bold text-primary">${{ $service['price_start'] }}</span>
+                                </div>
+                                <h3 class="text-xl md:text-2xl font-bold text-primary mb-2 group-hover:text-blue-500 transition-colors">
+                                    {{ $service->title }}
+                                </h3>
+                                <p class="text-sm text-secondary line-clamp-2">
+                                    {{ $service->description }}
+                                </p>
                             </div>
-                            <button class="bg-primary text-background px-6 py-2.5 rounded-full font-bold text-sm hover:opacity-90 transition-all hover:scale-105 flex items-center gap-2">
-                                Get Started
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
-                                </svg>
-                            </button>
+
+                            <!-- Features (show first 3-4) -->
+                            <div class="flex-1 mb-4">
+                                <ul class="space-y-1.5">
+                                    @foreach(array_slice($service->features, 0, $index === 0 || $index === 5 ? 4 : 3) as $feature)
+                                        <li class="flex items-start gap-2 text-xs text-secondary">
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-4 h-4 text-green-500 flex-shrink-0 mt-0.5">
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                                            </svg>
+                                            <span class="line-clamp-1">{{ $feature }}</span>
+                                        </li>
+                                    @endforeach
+                                    @if(count($service->features) > ($index === 0 || $index === 5 ? 4 : 3))
+                                        <li class="text-xs text-secondary/60 pl-6">+{{ count($service->features) - ($index === 0 || $index === 5 ? 4 : 3) }} more...</li>
+                                    @endif
+                                </ul>
+                            </div>
+                            
+                            <!-- Price & CTA -->
+                            <div class="flex items-center justify-between pt-4 border-t border-border/50">
+                                <div>
+                                    <span class="text-xs text-secondary block">From</span>
+                                    <span class="text-xl md:text-2xl font-bold text-primary">${{ number_format($service->price_start) }}</span>
+                                </div>
+                                <button class="bg-primary text-background px-4 py-2 rounded-full font-bold text-xs md:text-sm hover:opacity-90 transition-all hover:scale-105 flex items-center gap-1.5">
+                                    <span>Start</span>
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-3.5 h-3.5">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+                                    </svg>
+                                </button>
+                            </div>
                         </div>
                     </div>
                 @endforeach
