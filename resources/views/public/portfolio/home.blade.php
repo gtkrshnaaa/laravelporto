@@ -133,16 +133,20 @@
                     @endif
                     
                         {{-- Project Content --}}
-                        <div class="w-full h-full bg-gradient-to-br 
-                            {{ $loop->first ? 'from-blue-500/10 via-purple-500/10 to-pink-500/10' : '' }}
-                            {{ $loop->iteration == 2 ? 'from-green-500/10 via-teal-500/10 to-blue-500/10' : '' }}
-                            {{ $loop->iteration == 3 ? 'from-orange-500/10 via-red-500/10 to-pink-500/10' : '' }}
-                            {{ $loop->iteration == 4 ? 'from-purple-500/10 via-pink-500/10 to-red-500/10' : '' }}
-                            {{ $loop->iteration == 5 ? 'from-yellow-500/10 via-orange-500/10 to-red-500/10' : '' }}
-                            {{ $loop->iteration == 6 ? 'from-cyan-500/10 via-blue-500/10 to-purple-500/10' : '' }}
-                            flex flex-col justify-between p-6
-                        ">
+                        <div class="relative w-full h-full flex flex-col justify-between p-6 overflow-hidden">
+                            {{-- Corner Gradient Accent --}}
+                            <div class="absolute top-0 right-0 w-32 h-32 opacity-30 pointer-events-none">
+                                <div class="w-full h-full bg-gradient-to-br 
+                                    {{ $loop->first ? 'from-blue-500 via-purple-500 to-pink-500' : '' }}
+                                    {{ $loop->iteration == 2 ? 'from-green-500 via-teal-500 to-blue-500' : '' }}
+                                    {{ $loop->iteration == 3 ? 'from-orange-500 via-red-500 to-pink-500' : '' }}
+                                    {{ $loop->iteration == 4 ? 'from-purple-500 via-pink-500 to-red-500' : '' }}
+                                    {{ $loop->iteration == 5 ? 'from-yellow-500 via-orange-500 to-red-500' : '' }}
+                                    {{ $loop->iteration == 6 ? 'from-cyan-500 via-blue-500 to-purple-500' : '' }}
+                                    rounded-full blur-3xl"></div>
+                            </div>
                             {{-- Header with category and view count --}}
+                            <div class="relative z-10">
                             <div class="flex items-start justify-between">
                                 <span class="px-3 py-1 text-xs font-bold bg-primary/10 text-primary border border-primary/20 rounded-full">
                                     {{ $project->category }}
@@ -155,8 +159,10 @@
                                     {{ number_format($project->view_count) }}
                                 </div>
                             </div>
+                            </div>
 
                             {{-- Project Info --}}
+                            <div class="relative z-10">
                             <div>
                                 <h3 class="text-xl md:text-2xl font-bold text-primary mb-2 group-hover:text-blue-500 transition-colors">
                                     {{ $project->title }}
@@ -199,6 +205,7 @@
                                     @endif
                                 </div>
                             </div>
+                            </div>
                         </div>
                         <!-- Hover Overlay -->
                         <div class="absolute inset-0 bg-primary/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"></div>
@@ -228,17 +235,22 @@
                 @foreach($skills as $category => $skillList)
                     @if($categoryIndex === 0)
                         {{-- First category: Large (7 cols) --}}
-                        <div class="md:col-span-7 bg-gradient-to-br from-blue-500/5 via-purple-500/5 to-pink-500/5 border border-border rounded-2xl p-6 md:p-8 hover:shadow-xl hover:shadow-primary/5 hover:border-primary/30 transition-all duration-300">
+                        <div class="md:col-span-7 relative bg-surface border border-border rounded-2xl p-6 md:p-8 hover:shadow-xl hover:shadow-primary/5 hover:border-primary/30 transition-all duration-300 overflow-hidden">
+                            <div class="absolute top-0 right-0 w-24 h-24 bg-gradient-to-br from-blue-500 via-purple-500 to-pink-500 rounded-full blur-3xl opacity-20"></div>
                     @elseif($categoryIndex === 1)
                         {{-- Second category: Medium (5 cols) --}}
-                        <div class="md:col-span-5 bg-gradient-to-br from-green-500/5 via-teal-500/5 to-blue-500/5 border border-border rounded-2xl p-6 md:p-8 hover:shadow-xl hover:shadow-primary/5 hover:border-primary/30 transition-all duration-300">
+                        <div class="md:col-span-5 relative bg-surface border border-border rounded-2xl p-6 md:p-8 hover:shadow-xl hover:shadow-primary/5 hover:border-primary/30 transition-all duration-300 overflow-hidden">
+                            <div class="absolute top-0 right-0 w-24 h-24 bg-gradient-to-br from-green-500 via-teal-500 to-blue-500 rounded-full blur-3xl opacity-20"></div>
                     @elseif($categoryIndex === 2)
                         {{-- Third category: Medium (5 cols) --}}
-                        <div class="md:col-span-5 bg-gradient-to-br from-orange-500/5 via-red-500/5 to-pink-500/5 border border-border rounded-2xl p-6 md:p-8 hover:shadow-xl hover:shadow-primary/5 hover:border-primary/30 transition-all duration-300">
+                        <div class="md:col-span-5 relative bg-surface border border-border rounded-2xl p-6 md:p-8 hover:shadow-xl hover:shadow-primary/5 hover:border-primary/30 transition-all duration-300 overflow-hidden">
+                            <div class="absolute top-0 right-0 w-24 h-24 bg-gradient-to-br from-orange-500 via-red-500 to-pink-500 rounded-full blur-3xl opacity-20"></div>
                     @else
                         {{-- Fourth+ category: Large (7 cols) --}}
-                        <div class="md:col-span-7 bg-gradient-to-br from-purple-500/5 via-pink-500/5 to-red-500/5 border border-border rounded-2xl p-6 md:p-8 hover:shadow-xl hover:shadow-primary/5 hover:border-primary/30 transition-all duration-300">
+                        <div class="md:col-span-7 relative bg-surface border border-border rounded-2xl p-6 md:p-8 hover:shadow-xl hover:shadow-primary/5 hover:border-primary/30 transition-all duration-300 overflow-hidden">
+                            <div class="absolute top-0 right-0 w-24 h-24 bg-gradient-to-br from-purple-500 via-pink-500 to-red-500 rounded-full blur-3xl opacity-20"></div>
                     @endif
+                        <div class="relative z-10">
                         <div class="flex items-center gap-3 mb-6">
                             <div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5 text-primary">
@@ -289,22 +301,28 @@
                 @foreach($displayServices as $index => $service)
                     @if($index === 0)
                         {{-- First service: Large (8 cols) --}}
-                        <div class="md:col-span-8 relative bg-gradient-to-br from-blue-500/5 via-purple-500/5 to-pink-500/5 border border-border rounded-2xl p-6 md:p-8 hover:shadow-xl hover:shadow-primary/5 hover:border-primary/30 transition-all duration-300 group min-h-[300px]">
+                        <div class="md:col-span-8 relative bg-surface border border-border rounded-2xl p-6 md:p-8 hover:shadow-xl hover:shadow-primary/5 hover:border-primary/30 transition-all duration-300 group min-h-[300px] overflow-hidden">
+                            <div class="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-blue-500 via-purple-500 to-pink-500 rounded-full blur-3xl opacity-20"></div>
                     @elseif($index === 1)
                         {{-- Second service: Medium (4 cols) --}}
-                        <div class="md:col-span-4 relative bg-gradient-to-br from-green-500/5 via-teal-500/5 to-blue-500/5 border border-border rounded-2xl p-6 md:p-8 hover:shadow-xl hover:shadow-primary/5 hover:border-primary/30 transition-all duration-300 group min-h-[300px]">
+                        <div class="md:col-span-4 relative bg-surface border border-border rounded-2xl p-6 md:p-8 hover:shadow-xl hover:shadow-primary/5 hover:border-primary/30 transition-all duration-300 group min-h-[300px] overflow-hidden">
+                            <div class="absolute top-0 right-0 w-24 h-24 bg-gradient-to-br from-green-500 via-teal-500 to-blue-500 rounded-full blur-3xl opacity-20"></div>
                     @elseif($index === 2)
                         {{-- Third service: Medium (4 cols) --}}
-                        <div class="md:col-span-4 relative bg-gradient-to-br from-orange-500/5 via-red-500/5 to-pink-500/5 border border-border rounded-2xl p-6 md:p-8 hover:shadow-xl hover:shadow-primary/5 hover:border-primary/30 transition-all duration-300 group min-h-[300px]">
+                        <div class="md:col-span-4 relative bg-surface border border-border rounded-2xl p-6 md:p-8 hover:shadow-xl hover:shadow-primary/5 hover:border-primary/30 transition-all duration-300 group min-h-[300px] overflow-hidden">
+                            <div class="absolute top-0 right-0 w-24 h-24 bg-gradient-to-br from-orange-500 via-red-500 to-pink-500 rounded-full blur-3xl opacity-20"></div>
                     @elseif($index === 3)
                         {{-- Fourth service: Medium (4 cols) --}}
-                        <div class="md:col-span-4 relative bg-gradient-to-br from-purple-500/5 via-pink-500/5 to-red-500/5 border border-border rounded-2xl p-6 md:p-8 hover:shadow-xl hover:shadow-primary/5 hover:border-primary/30 transition-all duration-300 group min-h-[300px]">
+                        <div class="md:col-span-4 relative bg-surface border border-border rounded-2xl p-6 md:p-8 hover:shadow-xl hover:shadow-primary/5 hover:border-primary/30 transition-all duration-300 group min-h-[300px] overflow-hidden">
+                            <div class="absolute top-0 right-0 w-24 h-24 bg-gradient-to-br from-purple-500 via-pink-500 to-red-500 rounded-full blur-3xl opacity-20"></div>
                     @elseif($index === 4)
                         {{-- Fifth service: Medium (4 cols) --}}
-                        <div class="md:col-span-4 relative bg-gradient-to-br from-yellow-500/5 via-orange-500/5 to-red-500/5 border border-border rounded-2xl p-6 md:p-8 hover:shadow-xl hover:shadow-primary/5 hover:border-primary/30 transition-all duration-300 group min-h-[300px]">
+                        <div class="md:col-span-4 relative bg-surface border border-border rounded-2xl p-6 md:p-8 hover:shadow-xl hover:shadow-primary/5 hover:border-primary/30 transition-all duration-300 group min-h-[300px] overflow-hidden">
+                            <div class="absolute top-0 right-0 w-24 h-24 bg-gradient-to-br from-yellow-500 via-orange-500 to-red-500 rounded-full blur-3xl opacity-20"></div>
                     @else
                         {{-- Sixth service: Large (8 cols) --}}
-                        <div class="md:col-span-8 relative bg-gradient-to-br from-cyan-500/5 via-blue-500/5 to-purple-500/5 border border-border rounded-2xl p-6 md:p-8 hover:shadow-xl hover:shadow-primary/5 hover:border-primary/30 transition-all duration-300 group min-h-[300px]">
+                        <div class="md:col-span-8 relative bg-surface border border-border rounded-2xl p-6 md:p-8 hover:shadow-xl hover:shadow-primary/5 hover:border-primary/30 transition-all duration-300 group min-h-[300px] overflow-hidden">
+                            <div class="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-cyan-500 via-blue-500 to-purple-500 rounded-full blur-3xl opacity-20"></div>
                     @endif
                         <!-- Popular Badge -->
                         @if($service->is_popular)
@@ -313,7 +331,7 @@
                             </div>
                         @endif
 
-                        <div class="flex flex-col h-full">
+                        <div class="relative z-10 flex flex-col h-full">
                             <!-- Header -->
                             <div class="mb-4">
                                 <div class="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
@@ -379,42 +397,63 @@
             </div>
 
             <!-- Bento Grid Layout for Testimonials -->
-            <div class="grid grid-cols-12 gap-4 auto-rows-[200px]">
-                @foreach($testimonials as $index => $testimonial)
-                    <div class="
-                        {{ $index == 0 ? 'col-span-12 md:col-span-8 row-span-2' : '' }}
-                        {{ $index == 1 ? 'col-span-12 md:col-span-4 row-span-1' : '' }}
-                        {{ $index == 2 ? 'col-span-12 md:col-span-4 row-span-1' : '' }}
-                        {{ $index == 3 ? 'col-span-12 md:col-span-6 row-span-2' : '' }}
-                        {{ $index == 4 ? 'col-span-12 md:col-span-6 row-span-2' : '' }}
-                        bg-surface border border-border rounded-2xl p-6 md:p-8 hover:shadow-xl hover:shadow-primary/5 hover:border-primary/30 transition-all duration-300 group
-                    ">
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-4 md:gap-6">
+                @php
+                    $displayTestimonials = $testimonials->take(6);
+                @endphp
+                @foreach($displayTestimonials as $index => $testimonial)
+                    @if($index === 0)
+                        {{-- First: Large (8 cols) --}}
+                        <div class="md:col-span-8 relative bg-surface border border-border rounded-2xl p-6 md:p-8 hover:shadow-xl hover:shadow-primary/5 hover:border-primary/30 transition-all duration-300 group min-h-[300px] overflow-hidden">
+                            <div class="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-yellow-400 via-orange-500 to-red-600 rounded-full blur-3xl opacity-20"></div>
+                    @elseif($index === 1)
+                        {{-- Second: Medium (4 cols) --}}
+                        <div class="md:col-span-4 relative bg-surface border border-border rounded-2xl p-6 md:p-8 hover:shadow-xl hover:shadow-primary/5 hover:border-primary/30 transition-all duration-300 group min-h-[300px] overflow-hidden">
+                            <div class="absolute top-0 right-0 w-24 h-24 bg-gradient-to-br from-blue-500 via-purple-500 to-pink-500 rounded-full blur-3xl opacity-20"></div>
+                    @elseif($index === 2)
+                        {{-- Third: Medium (4 cols) --}}
+                        <div class="md:col-span-4 relative bg-surface border border-border rounded-2xl p-6 md:p-8 hover:shadow-xl hover:shadow-primary/5 hover:border-primary/30 transition-all duration-300 group min-h-[300px] overflow-hidden">
+                            <div class="absolute top-0 right-0 w-24 h-24 bg-gradient-to-br from-green-500 via-teal-500 to-blue-500 rounded-full blur-3xl opacity-20"></div>
+                    @elseif($index === 3)
+                        {{-- Fourth: Medium (4 cols) --}}
+                        <div class="md:col-span-4 relative bg-surface border border-border rounded-2xl p-6 md:p-8 hover:shadow-xl hover:shadow-primary/5 hover:border-primary/30 transition-all duration-300 group min-h-[300px] overflow-hidden">
+                            <div class="absolute top-0 right-0 w-24 h-24 bg-gradient-to-br from-purple-500 via-pink-500 to-red-500 rounded-full blur-3xl opacity-20"></div>
+                    @elseif($index === 4)
+                        {{-- Fifth: Medium (4 cols) --}}
+                        <div class="md:col-span-4 relative bg-surface border border-border rounded-2xl p-6 md:p-8 hover:shadow-xl hover:shadow-primary/5 hover:border-primary/30 transition-all duration-300 group min-h-[300px] overflow-hidden">
+                            <div class="absolute top-0 right-0 w-24 h-24 bg-gradient-to-br from-orange-500 via-red-500 to-pink-500 rounded-full blur-3xl opacity-20"></div>
+                    @else
+                        {{-- Sixth: Medium (4 cols) --}}
+                        <div class="md:col-span-4 relative bg-surface border border-border rounded-2xl p-6 md:p-8 hover:shadow-xl hover:shadow-primary/5 hover:border-primary/30 transition-all duration-300 group min-h-[300px] overflow-hidden">
+                            <div class="absolute top-0 right-0 w-24 h-24 bg-gradient-to-br from-cyan-500 via-blue-500 to-purple-500 rounded-full blur-3xl opacity-20"></div>
+                    @endif
+                        <div class="relative z-10 flex flex-col h-full">
                         <!-- Quote Icon -->
-                        <div class="text-4xl md:text-5xl text-primary/10 mb-3">"</div>
+                        <div class="text-4xl text-primary/10 mb-3">"</div>
                         
                         <!-- Testimonial Content -->
-                        <p class="text-sm md:text-base text-primary mb-4 md:mb-6 leading-relaxed {{ $index == 0 ? 'line-clamp-none' : 'line-clamp-3' }}">
-                            {{ $testimonial['content'] }}
+                        <p class="text-sm text-primary mb-4 leading-relaxed flex-1 {{ $index === 0 ? 'line-clamp-6' : 'line-clamp-4' }}">
+                            {{ $testimonial->content }}
                         </p>
                         
                         <!-- Rating -->
-                        <div class="flex gap-1 mb-4">
+                        <div class="flex gap-0.5 mb-3">
                             @for($i = 1; $i <= 5; $i++)
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="{{ $i <= $testimonial['rating'] ? 'currentColor' : 'none' }}" stroke="currentColor" class="w-4 h-4 text-yellow-500">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="{{ $i <= $testimonial->rating ? 'currentColor' : 'none' }}" stroke="currentColor" class="w-4 h-4 text-yellow-500">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.563.563 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z" />
                                 </svg>
                             @endfor
                         </div>
 
                         <!-- Client Info -->
-                        <div class="flex items-center gap-3">
-                            <div class="w-10 h-10 rounded-full bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center flex-shrink-0">
-                                <span class="text-base font-bold text-primary">{{ substr($testimonial['client_name'], 0, 1) }}</span>
+                        <div class="flex items-center gap-2.5">
+                            <div class="w-9 h-9 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
+                                <span class="text-sm font-bold text-primary">{{ substr($testimonial->client_name, 0, 1) }}</span>
                             </div>
                             <div class="min-w-0">
-                                <div class="font-bold text-primary text-sm truncate">{{ $testimonial['client_name'] }}</div>
+                                <div class="font-bold text-primary text-sm truncate">{{ $testimonial->client_name }}</div>
                                 <div class="text-xs text-secondary truncate">
-                                    {{ $testimonial['client_position'] }} at {{ $testimonial['client_company'] }}
+                                    {{ $testimonial->client_position }} • {{ $testimonial->client_company }}
                                 </div>
                             </div>
                         </div>
