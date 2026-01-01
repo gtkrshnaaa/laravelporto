@@ -236,19 +236,27 @@
                     @if($categoryIndex === 0)
                         {{-- First category: Large (7 cols) --}}
                         <div class="md:col-span-7 relative bg-surface border border-border rounded-2xl p-6 md:p-8 hover:shadow-xl hover:shadow-primary/5 hover:border-primary/30 transition-all duration-300 overflow-hidden">
-                            <div class="absolute top-0 right-0 w-24 h-24 bg-gradient-to-br from-blue-500 via-purple-500 to-pink-500 rounded-full blur-3xl opacity-20"></div>
+                            <div class="absolute top-0 right-0 w-32 h-32 opacity-30 pointer-events-none">
+                                <div class="w-full h-full bg-gradient-to-br from-blue-500 via-purple-500 to-pink-500 rounded-full blur-3xl"></div>
+                            </div>
                     @elseif($categoryIndex === 1)
                         {{-- Second category: Medium (5 cols) --}}
                         <div class="md:col-span-5 relative bg-surface border border-border rounded-2xl p-6 md:p-8 hover:shadow-xl hover:shadow-primary/5 hover:border-primary/30 transition-all duration-300 overflow-hidden">
-                            <div class="absolute top-0 right-0 w-24 h-24 bg-gradient-to-br from-green-500 via-teal-500 to-blue-500 rounded-full blur-3xl opacity-20"></div>
+                            <div class="absolute top-0 right-0 w-32 h-32 opacity-30 pointer-events-none">
+                                <div class="w-full h-full bg-gradient-to-br from-green-500 via-teal-500 to-blue-500 rounded-full blur-3xl"></div>
+                            </div>
                     @elseif($categoryIndex === 2)
                         {{-- Third category: Medium (5 cols) --}}
                         <div class="md:col-span-5 relative bg-surface border border-border rounded-2xl p-6 md:p-8 hover:shadow-xl hover:shadow-primary/5 hover:border-primary/30 transition-all duration-300 overflow-hidden">
-                            <div class="absolute top-0 right-0 w-24 h-24 bg-gradient-to-br from-orange-500 via-red-500 to-pink-500 rounded-full blur-3xl opacity-20"></div>
+                            <div class="absolute top-0 right-0 w-32 h-32 opacity-30 pointer-events-none">
+                                <div class="w-full h-full bg-gradient-to-br from-orange-500 via-red-500 to-pink-500 rounded-full blur-3xl"></div>
+                            </div>
                     @else
                         {{-- Fourth+ category: Large (7 cols) --}}
                         <div class="md:col-span-7 relative bg-surface border border-border rounded-2xl p-6 md:p-8 hover:shadow-xl hover:shadow-primary/5 hover:border-primary/30 transition-all duration-300 overflow-hidden">
-                            <div class="absolute top-0 right-0 w-24 h-24 bg-gradient-to-br from-purple-500 via-pink-500 to-red-500 rounded-full blur-3xl opacity-20"></div>
+                            <div class="absolute top-0 right-0 w-32 h-32 opacity-30 pointer-events-none">
+                                <div class="w-full h-full bg-gradient-to-br from-purple-500 via-pink-500 to-red-500 rounded-full blur-3xl"></div>
+                            </div>
                     @endif
                         <div class="relative z-10">
                         <div class="flex items-center gap-3 mb-6">
@@ -302,27 +310,39 @@
                     @if($index === 0)
                         {{-- First service: Large (8 cols) --}}
                         <div class="md:col-span-8 relative bg-surface border border-border rounded-2xl p-6 md:p-8 hover:shadow-xl hover:shadow-primary/5 hover:border-primary/30 transition-all duration-300 group min-h-[300px] overflow-hidden">
-                            <div class="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-blue-500 via-purple-500 to-pink-500 rounded-full blur-3xl opacity-20"></div>
+                            <div class="absolute top-0 right-0 w-32 h-32 opacity-30 pointer-events-none">
+                                <div class="w-full h-full bg-gradient-to-br from-blue-500 via-purple-500 to-pink-500 rounded-full blur-3xl"></div>
+                            </div>
                     @elseif($index === 1)
                         {{-- Second service: Medium (4 cols) --}}
                         <div class="md:col-span-4 relative bg-surface border border-border rounded-2xl p-6 md:p-8 hover:shadow-xl hover:shadow-primary/5 hover:border-primary/30 transition-all duration-300 group min-h-[300px] overflow-hidden">
-                            <div class="absolute top-0 right-0 w-24 h-24 bg-gradient-to-br from-green-500 via-teal-500 to-blue-500 rounded-full blur-3xl opacity-20"></div>
+                            <div class="absolute top-0 right-0 w-32 h-32 opacity-30 pointer-events-none">
+                                <div class="w-full h-full bg-gradient-to-br from-green-500 via-teal-500 to-blue-500 rounded-full blur-3xl"></div>
+                            </div>
                     @elseif($index === 2)
                         {{-- Third service: Medium (4 cols) --}}
                         <div class="md:col-span-4 relative bg-surface border border-border rounded-2xl p-6 md:p-8 hover:shadow-xl hover:shadow-primary/5 hover:border-primary/30 transition-all duration-300 group min-h-[300px] overflow-hidden">
-                            <div class="absolute top-0 right-0 w-24 h-24 bg-gradient-to-br from-orange-500 via-red-500 to-pink-500 rounded-full blur-3xl opacity-20"></div>
+                            <div class="absolute top-0 right-0 w-32 h-32 opacity-30 pointer-events-none">
+                                <div class="w-full h-full bg-gradient-to-br from-orange-500 via-red-500 to-pink-500 rounded-full blur-3xl"></div>
+                            </div>
                     @elseif($index === 3)
                         {{-- Fourth service: Medium (4 cols) --}}
                         <div class="md:col-span-4 relative bg-surface border border-border rounded-2xl p-6 md:p-8 hover:shadow-xl hover:shadow-primary/5 hover:border-primary/30 transition-all duration-300 group min-h-[300px] overflow-hidden">
-                            <div class="absolute top-0 right-0 w-24 h-24 bg-gradient-to-br from-purple-500 via-pink-500 to-red-500 rounded-full blur-3xl opacity-20"></div>
+                            <div class="absolute top-0 right-0 w-32 h-32 opacity-30 pointer-events-none">
+                                <div class="w-full h-full bg-gradient-to-br from-purple-500 via-pink-500 to-red-500 rounded-full blur-3xl"></div>
+                            </div>
                     @elseif($index === 4)
                         {{-- Fifth service: Medium (4 cols) --}}
                         <div class="md:col-span-4 relative bg-surface border border-border rounded-2xl p-6 md:p-8 hover:shadow-xl hover:shadow-primary/5 hover:border-primary/30 transition-all duration-300 group min-h-[300px] overflow-hidden">
-                            <div class="absolute top-0 right-0 w-24 h-24 bg-gradient-to-br from-yellow-500 via-orange-500 to-red-500 rounded-full blur-3xl opacity-20"></div>
+                            <div class="absolute top-0 right-0 w-32 h-32 opacity-30 pointer-events-none">
+                                <div class="w-full h-full bg-gradient-to-br from-yellow-500 via-orange-500 to-red-500 rounded-full blur-3xl"></div>
+                            </div>
                     @else
                         {{-- Sixth service: Large (8 cols) --}}
                         <div class="md:col-span-8 relative bg-surface border border-border rounded-2xl p-6 md:p-8 hover:shadow-xl hover:shadow-primary/5 hover:border-primary/30 transition-all duration-300 group min-h-[300px] overflow-hidden">
-                            <div class="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-cyan-500 via-blue-500 to-purple-500 rounded-full blur-3xl opacity-20"></div>
+                            <div class="absolute top-0 right-0 w-32 h-32 opacity-30 pointer-events-none">
+                                <div class="w-full h-full bg-gradient-to-br from-cyan-500 via-blue-500 to-purple-500 rounded-full blur-3xl"></div>
+                            </div>
                     @endif
                         <!-- Popular Badge -->
                         @if($service->is_popular)
@@ -405,27 +425,39 @@
                     @if($index === 0)
                         {{-- First: Large (8 cols) --}}
                         <div class="md:col-span-8 relative bg-surface border border-border rounded-2xl p-6 md:p-8 hover:shadow-xl hover:shadow-primary/5 hover:border-primary/30 transition-all duration-300 group min-h-[300px] overflow-hidden">
-                            <div class="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-yellow-400 via-orange-500 to-red-600 rounded-full blur-3xl opacity-20"></div>
+                            <div class="absolute top-0 right-0 w-32 h-32 opacity-30 pointer-events-none">
+                                <div class="w-full h-full bg-gradient-to-br from-yellow-400 via-orange-500 to-red-600 rounded-full blur-3xl"></div>
+                            </div>
                     @elseif($index === 1)
                         {{-- Second: Medium (4 cols) --}}
                         <div class="md:col-span-4 relative bg-surface border border-border rounded-2xl p-6 md:p-8 hover:shadow-xl hover:shadow-primary/5 hover:border-primary/30 transition-all duration-300 group min-h-[300px] overflow-hidden">
-                            <div class="absolute top-0 right-0 w-24 h-24 bg-gradient-to-br from-blue-500 via-purple-500 to-pink-500 rounded-full blur-3xl opacity-20"></div>
+                            <div class="absolute top-0 right-0 w-32 h-32 opacity-30 pointer-events-none">
+                                <div class="w-full h-full bg-gradient-to-br from-blue-500 via-purple-500 to-pink-500 rounded-full blur-3xl"></div>
+                            </div>
                     @elseif($index === 2)
                         {{-- Third: Medium (4 cols) --}}
                         <div class="md:col-span-4 relative bg-surface border border-border rounded-2xl p-6 md:p-8 hover:shadow-xl hover:shadow-primary/5 hover:border-primary/30 transition-all duration-300 group min-h-[300px] overflow-hidden">
-                            <div class="absolute top-0 right-0 w-24 h-24 bg-gradient-to-br from-green-500 via-teal-500 to-blue-500 rounded-full blur-3xl opacity-20"></div>
+                            <div class="absolute top-0 right-0 w-32 h-32 opacity-30 pointer-events-none">
+                                <div class="w-full h-full bg-gradient-to-br from-green-500 via-teal-500 to-blue-500 rounded-full blur-3xl"></div>
+                            </div>
                     @elseif($index === 3)
                         {{-- Fourth: Medium (4 cols) --}}
                         <div class="md:col-span-4 relative bg-surface border border-border rounded-2xl p-6 md:p-8 hover:shadow-xl hover:shadow-primary/5 hover:border-primary/30 transition-all duration-300 group min-h-[300px] overflow-hidden">
-                            <div class="absolute top-0 right-0 w-24 h-24 bg-gradient-to-br from-purple-500 via-pink-500 to-red-500 rounded-full blur-3xl opacity-20"></div>
+                            <div class="absolute top-0 right-0 w-32 h-32 opacity-30 pointer-events-none">
+                                <div class="w-full h-full bg-gradient-to-br from-purple-500 via-pink-500 to-red-500 rounded-full blur-3xl"></div>
+                            </div>
                     @elseif($index === 4)
                         {{-- Fifth: Medium (4 cols) --}}
                         <div class="md:col-span-4 relative bg-surface border border-border rounded-2xl p-6 md:p-8 hover:shadow-xl hover:shadow-primary/5 hover:border-primary/30 transition-all duration-300 group min-h-[300px] overflow-hidden">
-                            <div class="absolute top-0 right-0 w-24 h-24 bg-gradient-to-br from-orange-500 via-red-500 to-pink-500 rounded-full blur-3xl opacity-20"></div>
+                            <div class="absolute top-0 right-0 w-32 h-32 opacity-30 pointer-events-none">
+                                <div class="w-full h-full bg-gradient-to-br from-orange-500 via-red-500 to-pink-500 rounded-full blur-3xl"></div>
+                            </div>
                     @else
                         {{-- Sixth: Medium (4 cols) --}}
                         <div class="md:col-span-4 relative bg-surface border border-border rounded-2xl p-6 md:p-8 hover:shadow-xl hover:shadow-primary/5 hover:border-primary/30 transition-all duration-300 group min-h-[300px] overflow-hidden">
-                            <div class="absolute top-0 right-0 w-24 h-24 bg-gradient-to-br from-cyan-500 via-blue-500 to-purple-500 rounded-full blur-3xl opacity-20"></div>
+                            <div class="absolute top-0 right-0 w-32 h-32 opacity-30 pointer-events-none">
+                                <div class="w-full h-full bg-gradient-to-br from-cyan-500 via-blue-500 to-purple-500 rounded-full blur-3xl"></div>
+                            </div>
                     @endif
                         <div class="relative z-10 flex flex-col h-full">
                         <!-- Quote Icon -->
