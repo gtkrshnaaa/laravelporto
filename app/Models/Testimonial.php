@@ -16,9 +16,13 @@ class Testimonial extends Model
         'client_avatar',
         'content',
         'rating',
+        'is_approved',
+        'display_order',
     ];
 
     protected $casts = [
         'rating' => 'integer',
+        'is_approved' => 'boolean',
+        'display_order' => 'integer',
     ];
 }

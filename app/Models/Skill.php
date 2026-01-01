@@ -13,9 +13,11 @@ class Skill extends Model
         'name',
         'category',
         'level',
+        'display_order',
     ];
 
     protected $casts = [
         'level' => 'integer',
+        'display_order' => 'integer',
     ];
 }

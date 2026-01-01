@@ -16,11 +16,15 @@ class Service extends Model
         'price_start',
         'is_popular',
         'features',
+        'is_active',
+        'display_order',
     ];
 
     protected $casts = [
         'features' => 'array',
         'is_popular' => 'boolean',
+        'is_active' => 'boolean',
         'price_start' => 'integer',
+        'display_order' => 'integer',
     ];
 }
