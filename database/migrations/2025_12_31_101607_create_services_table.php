@@ -19,6 +19,8 @@ return new class extends Migration
             $table->integer('price_start');
             $table->boolean('is_popular')->default(false);
             $table->json('features'); // Array of feature strings
+            $table->boolean('is_active')->default(true);
+            $table->integer('display_order')->default(0);
             $table->timestamps();
         });
     }

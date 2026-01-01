@@ -16,8 +16,10 @@ return new class extends Migration
             $table->string('name');
             $table->string('category'); // Frontend, Backend, Tools & Other
             $table->integer('level'); // 0-100
+            $table->integer('display_order')->default(0);
             $table->timestamps();
         });
+
     }
 
     /**

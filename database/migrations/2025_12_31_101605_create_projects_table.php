@@ -24,8 +24,10 @@ return new class extends Migration
             $table->boolean('is_featured')->default(false);
             $table->string('size')->default('medium'); // large, medium, small
             $table->string('featured_image')->nullable();
+            $table->integer('display_order')->default(0);
             $table->timestamps();
         });
+
     }
 
     /**

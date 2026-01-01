@@ -19,8 +19,11 @@ return new class extends Migration
             $table->string('client_avatar')->nullable();
             $table->text('content');
             $table->integer('rating')->default(5); // 1-5 stars
+            $table->boolean('is_approved')->default(true);
+            $table->integer('display_order')->default(0);
             $table->timestamps();
         });
+
     }
 
     /**
